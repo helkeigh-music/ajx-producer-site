@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#0b1f3a"/>
+  <path d="M0 280 Q200 180 400 300 L400 400 L0 400 Z" fill="#38bdf8" opacity="0.35"/>
+  <text x="40" y="340" fill="#fff" font-family="Inter, sans-serif" font-size="44" font-weight="700">Pressure</text>
+</svg>

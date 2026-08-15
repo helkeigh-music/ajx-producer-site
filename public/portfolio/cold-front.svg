@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#081628"/>
+  <path d="M40 320 L120 120 L200 280 L280 100 L360 320 Z" fill="none" stroke="#38bdf8" stroke-width="3" opacity="0.5"/>
+  <text x="40" y="360" fill="#fff" font-family="Inter, sans-serif" font-size="40" font-weight="700">Cold Front</text>
+</svg>

@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+
+# Vercel
+.vercel
+
+# Uploaded beats (production uses Blob)
+public/beats/uploads/

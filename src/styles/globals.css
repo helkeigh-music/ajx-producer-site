@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: rgb(56 189 248 / 0.35);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .ajx-container {
+    @apply mx-auto w-full max-w-5xl px-5 sm:px-8;
+  }
+
+  .ajx-btn-primary {
+    @apply inline-flex min-h-11 items-center justify-center rounded-full bg-sky-brand px-6 text-sm font-semibold text-navy-950 transition hover:bg-sky-light;
+  }
+
+  .ajx-btn-ghost {
+    @apply inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 px-6 text-sm font-semibold text-white/85 transition hover:border-sky-brand/40 hover:text-white;
+  }
+
+  .ajx-card {
+    @apply rounded-2xl border border-white/10 bg-navy-900/70 backdrop-blur-sm;
+  }
+
+  .ajx-link {
+    @apply text-sky-brand transition hover:text-sky-light;
+  }
+}

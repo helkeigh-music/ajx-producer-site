@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#102a43"/>
+  <rect x="60" y="260" width="280" height="4" fill="#38bdf8" opacity="0.6"/>
+  <text x="40" y="340" fill="#fff" font-family="Inter, sans-serif" font-size="44" font-weight="700">Skyline</text>
+</svg>
