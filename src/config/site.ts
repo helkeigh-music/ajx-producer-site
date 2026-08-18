@@ -12,7 +12,7 @@ export const BRAND = {
 export const SITE = {
   title: 'Type Beats Manchester | Trap, Drill & R&B | prodbyajx',
   description: 'Trap, drill and R&B type beats. Studio sessions in Manchester.',
-  url: import.meta.env.VITE_SITE_URL ?? 'https://ajx-producer.vercel.app',
+  url: import.meta.env.VITE_SITE_URL ?? 'https://ajx-producer-site.vercel.app',
   bookingUrl: '/book',
   email: 'prodbyajx@gmail.com',
   phone: import.meta.env.VITE_CONTACT_PHONE ?? '+44 7496 181211',

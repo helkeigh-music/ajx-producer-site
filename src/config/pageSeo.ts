@@ -17,7 +17,7 @@ export const PAGE_SEO: Record<string, PageSeo> = {
       'Trap, drill and R&B on the store from £29. Lease a beat or buy it exclusive. Book a session if you need something custom.',
   },
   '/beats': {
-    title: 'Type Beats Manchester | Trap, Drill & R&B | prodbyajx',
+    title: 'Beat Store | Trap, Drill & R&B Type Beats | prodbyajx',
     description:
       'Lease trap, drill and R&B type beats from Manchester. Preview free, checkout online, download link by email. Basic, premium and exclusive licenses.',
     h1: 'Beat store',
@@ -43,8 +43,14 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     h1: 'Upload beats',
     robots: 'noindex, nofollow',
   },
+  '/404': {
+    title: 'Page not found | prodbyajx',
+    description: 'The page you requested could not be found.',
+    h1: 'Page not found',
+    robots: 'noindex, nofollow',
+  },
 }
 
 export function pageSeoForPath(pathname: string): PageSeo {
-  return PAGE_SEO[pathname] ?? PAGE_SEO['/']
+  return PAGE_SEO[pathname] ?? PAGE_SEO['/404']
 }

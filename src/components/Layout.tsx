@@ -1,9 +1,11 @@
 import { type ReactNode, useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { JsonLd } from '@/components/JsonLd'
 import { SocialLinks } from '@/components/SocialLinks'
-import { pageSeoForPath } from '@/config/pageSeo'
+import { PAGE_SEO, pageSeoForPath } from '@/config/pageSeo'
 import { BRAND, SITE } from '@/config/site'
 import { usePageSeo } from '@/hooks/usePageSeo'
+import { breadcrumbJsonLd, homeJsonLd } from '@/lib/schema'
 
 const nav = [
   { to: '/beats', label: 'Beats' },
@@ -135,17 +137,19 @@ export function SiteFooter() {
 
 export function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
-  const seo = pageSeoForPath(pathname)
+  const routeSeo = PAGE_SEO[pathname] ? pageSeoForPath(pathname) : pageSeoForPath('/404')
 
   usePageSeo({
-    title: seo.title,
-    description: seo.description,
+    title: routeSeo.title,
+    description: routeSeo.description,
     path: pathname,
-    robots: seo.robots,
+    robots: routeSeo.robots,
   })
 
   return (
     <div className="flex min-h-dvh flex-col">
+      <JsonLd data={pathname === '/' ? homeJsonLd() : null} id="jsonld-home" />
+      <JsonLd data={breadcrumbJsonLd(pathname)} id="jsonld-breadcrumb" />
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />
