@@ -1,24 +1,28 @@
 export const BRAND = {
-  name: 'AJX',
-  tagline: 'Producer',
+  name: 'prodbyajx',
+  tagline: 'Manchester producer',
+  location: 'Manchester, UK',
+  profileImageUrl: '/profile.jpg',
   colors: {
     navy: '#0b1f3a',
     sky: '#38bdf8',
   },
-  logoUrl: '/logo.svg',
 } as const
 
 export const SITE = {
-  title: 'AJX | Producer',
-  description: 'UK beats, production, and sessions. Trap, R&B, and dark textures — navy and sky.',
+  title: 'Type Beats Manchester | Trap, Drill & R&B | prodbyajx',
+  description: 'Trap, drill and R&B type beats. Studio sessions in Manchester.',
   url: import.meta.env.VITE_SITE_URL ?? 'https://ajx-producer.vercel.app',
-  bookingUrl: import.meta.env.VITE_BOOKING_URL ?? 'https://cal.com/ajx/sessions',
-  email: import.meta.env.VITE_CONTACT_EMAIL ?? 'hello@ajxbeats.com',
+  bookingUrl: '/book',
+  email: 'prodbyajx@gmail.com',
+  phone: import.meta.env.VITE_CONTACT_PHONE ?? '+44 7496 181211',
+  phoneTel: import.meta.env.VITE_CONTACT_PHONE?.replace(/\s/g, '') ?? '+447496181211',
   social: {
-    instagram: import.meta.env.VITE_SOCIAL_INSTAGRAM ?? 'https://instagram.com/ajxproducer',
-    youtube: import.meta.env.VITE_SOCIAL_YOUTUBE ?? 'https://youtube.com/@ajxproducer',
-    spotify: import.meta.env.VITE_SOCIAL_SPOTIFY ?? 'https://open.spotify.com/artist/ajx',
-    tiktok: import.meta.env.VITE_SOCIAL_TIKTOK ?? 'https://tiktok.com/@ajxproducer',
+    instagram: import.meta.env.VITE_SOCIAL_INSTAGRAM ?? 'https://www.instagram.com/prodbyajx/',
+    youtube: import.meta.env.VITE_SOCIAL_YOUTUBE ?? 'https://youtube.com/@prodbyajx',
+    soundcloud: import.meta.env.VITE_SOCIAL_SOUNDCLOUD ?? 'https://soundcloud.com/user-335209347',
+    spotify: import.meta.env.VITE_SOCIAL_SPOTIFY ?? '',
+    tiktok: import.meta.env.VITE_SOCIAL_TIKTOK ?? '',
   },
 } as const
 
@@ -29,26 +33,37 @@ export type LicenseTierInfo = {
   label: string
   summary: string
   includes: string[]
+  priceGbp: number
+}
+
+/** Default tier prices used across the store and checkout. */
+export const DEFAULT_TIER_PRICES: Record<LicenseTier, number> = {
+  basic: 29,
+  premium: 69,
+  exclusive: 249,
 }
 
 export const LICENSE_TIERS: LicenseTierInfo[] = [
   {
     id: 'basic',
-    label: 'Basic lease',
-    summary: 'MP3 lease for independent releases.',
-    includes: ['Tagged MP3', '2,000 stream cap', 'Credit required', 'Non-exclusive'],
+    label: 'Basic',
+    summary: 'Tagged MP3. Fine for demos and freestyles.',
+    includes: ['Tagged MP3', '2k stream cap', 'Credit: prodbyajx', 'Non-exclusive'],
+    priceGbp: DEFAULT_TIER_PRICES.basic,
   },
   {
     id: 'premium',
-    label: 'Premium lease',
-    summary: 'WAV + stems for serious releases.',
-    includes: ['Untagged WAV', 'Stems pack', '50,000 stream cap', 'Non-exclusive'],
+    label: 'Premium',
+    summary: 'WAV + stems when you are actually releasing.',
+    includes: ['WAV + stems', '50k stream cap', 'Non-exclusive', 'Mix-ready'],
+    priceGbp: DEFAULT_TIER_PRICES.premium,
   },
   {
     id: 'exclusive',
     label: 'Exclusive',
-    summary: 'Full buyout — beat removed from store.',
-    includes: ['WAV + stems', 'Unlimited use', 'Exclusive rights', 'Removed from sale'],
+    summary: 'Beat comes off the store. Yours outright.',
+    includes: ['WAV + stems', 'Unlimited use', 'Exclusive rights', 'Removed from store'],
+    priceGbp: DEFAULT_TIER_PRICES.exclusive,
   },
 ]
 
@@ -57,11 +72,13 @@ export type Beat = {
   title: string
   bpm: number
   key: string
-  /** Base price for basic tier; premium/exclusive use prices map or multipliers. */
   priceGbp: number
   prices?: Partial<Record<LicenseTier, number>>
   tags: string[]
-  audioUrl: string
+  /** SoundCloud or YouTube track URL — shown as embedded player when set. */
+  embedUrl?: string
+  /** Direct MP3 fallback when no embed URL. */
+  audioUrl?: string
   coverUrl?: string
   featured?: boolean
   createdAt: string
@@ -76,12 +93,12 @@ export type PortfolioItem = {
   link?: string
   coverUrl?: string
   audioUrl?: string
+  embedUrl?: string
   description?: string
 }
 
 export function beatPriceForTier(beat: Beat, tier: LicenseTier): number {
   if (beat.prices?.[tier] != null) return beat.prices[tier]!
   if (tier === 'basic') return beat.priceGbp
-  if (tier === 'premium') return Math.round(beat.priceGbp * 2.5)
-  return Math.round(beat.priceGbp * 8)
+  return DEFAULT_TIER_PRICES[tier]
 }

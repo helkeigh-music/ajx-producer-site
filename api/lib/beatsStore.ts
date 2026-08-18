@@ -10,7 +10,8 @@ export type StoredBeat = {
   priceGbp: number
   prices?: Partial<Record<LicenseTier, number>>
   tags: string[]
-  audioUrl: string
+  embedUrl?: string
+  audioUrl?: string
   coverUrl?: string
   featured?: boolean
   leaseFiles?: Partial<Record<LicenseTier, string>>
@@ -66,8 +67,8 @@ export function verifyAdminPassword(password: string | null | undefined): boolea
 export function priceForTier(beat: StoredBeat, tier: LicenseTier): number {
   if (beat.prices?.[tier] != null) return beat.prices[tier]!
   if (tier === 'basic') return beat.priceGbp
-  if (tier === 'premium') return Math.round(beat.priceGbp * 2.5)
-  return Math.round(beat.priceGbp * 8)
+  const defaults = { basic: 29, premium: 69, exclusive: 249 } as const
+  return defaults[tier]
 }
 
 export function leaseUrlForTier(beat: StoredBeat, tier: LicenseTier): string | null {

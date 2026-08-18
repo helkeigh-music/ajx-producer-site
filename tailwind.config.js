@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         navy: {
-          950: '#050c18',
+          950: '#030810',
           900: '#0b1f3a',
           800: '#102847',
           700: '#163558',
@@ -17,7 +17,12 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        heading: ['Syne', 'system-ui', 'sans-serif'],
+      },
+      spacing: {
+        'safe-b': 'env(safe-area-inset-bottom, 0px)',
+        'safe-t': 'env(safe-area-inset-top, 0px)',
       },
     },
   },

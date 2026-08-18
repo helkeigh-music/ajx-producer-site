@@ -33,25 +33,35 @@ export async function POST(req: Request) {
   const key = String(form.get('key') ?? '').trim()
   const priceGbp = Number(form.get('priceGbp'))
   const tagsRaw = String(form.get('tags') ?? '')
+  const embedUrl = String(form.get('embedUrl') ?? '').trim()
   const previewFile = form.get('previewFile')
   const leaseFile = form.get('leaseFile')
 
-  if (!title || !key || !Number.isFinite(bpm) || !Number.isFinite(priceGbp) || !(previewFile instanceof File)) {
+  if (!title || !key || !Number.isFinite(bpm) || !Number.isFinite(priceGbp)) {
     return Response.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  if (!previewFile.type.includes('audio') && !previewFile.name.toLowerCase().endsWith('.mp3')) {
+  const hasPreviewFile = previewFile instanceof File && previewFile.size > 0
+  if (!embedUrl && !hasPreviewFile) {
+    return Response.json({ error: 'Add a SoundCloud/YouTube link or upload an MP3 preview' }, { status: 400 })
+  }
+
+  if (hasPreviewFile && !previewFile.type.includes('audio') && !previewFile.name.toLowerCase().endsWith('.mp3')) {
     return Response.json({ error: 'Upload an MP3 preview file' }, { status: 400 })
   }
 
   const id = `${slugify(title)}-${Date.now().toString(36)}`
-  const previewPath = `ajx/beats/${id}-preview.mp3`
+  let audioUrl: string | undefined
 
-  const uploadedPreview = await put(previewPath, previewFile, {
-    access: 'public',
-    contentType: 'audio/mpeg',
-    addRandomSuffix: false,
-  })
+  if (hasPreviewFile) {
+    const previewPath = `ajx/beats/${id}-preview.mp3`
+    const uploadedPreview = await put(previewPath, previewFile, {
+      access: 'public',
+      contentType: 'audio/mpeg',
+      addRandomSuffix: false,
+    })
+    audioUrl = uploadedPreview.url
+  }
 
   const leaseFiles: NonNullable<StoredBeat['leaseFiles']> = {}
   if (leaseFile instanceof File && leaseFile.size > 0) {
@@ -76,7 +86,8 @@ export async function POST(req: Request) {
       .split(',')
       .map((t) => t.trim())
       .filter(Boolean),
-    audioUrl: uploadedPreview.url,
+    embedUrl: embedUrl || undefined,
+    audioUrl,
     leaseFiles: Object.keys(leaseFiles).length ? leaseFiles : undefined,
     createdAt: new Date().toISOString(),
   }

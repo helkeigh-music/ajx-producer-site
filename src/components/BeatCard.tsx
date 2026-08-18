@@ -1,3 +1,4 @@
+import { DiscCover } from '@/components/DiscCover'
 import type { Beat, LicenseTier } from '@/config/site'
 import { beatPriceForTier, LICENSE_TIERS } from '@/config/site'
 import { createCheckout } from '@/lib/beats'
@@ -5,11 +6,12 @@ import { useState } from 'react'
 
 type Props = {
   beat: Beat
+  index: number
   active: boolean
   onPlay: () => void
 }
 
-export function BeatCard({ beat, active, onPlay }: Props) {
+export function BeatCard({ beat, index, active, onPlay }: Props) {
   const [tier, setTier] = useState<LicenseTier>('basic')
   const [buying, setBuying] = useState(false)
   const price = beatPriceForTier(beat, tier)
@@ -27,58 +29,63 @@ export function BeatCard({ beat, active, onPlay }: Props) {
   }
 
   return (
-    <article className={`ajx-card p-4 transition ${active ? 'border-sky-brand/40 ring-1 ring-sky-brand/20' : ''}`}>
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex gap-3">
-          {beat.coverUrl ? (
-            <img src={beat.coverUrl} alt="" className="h-16 w-16 rounded-xl object-cover" />
-          ) : null}
-          <div>
-            <h3 className="text-base font-semibold text-white">{beat.title}</h3>
-            <p className="mt-1 text-sm text-white/45">
-              {beat.bpm} BPM · {beat.key}
-            </p>
-            {beat.tags.length ? (
-              <p className="mt-2 text-xs uppercase tracking-wide text-sky-brand/80">{beat.tags.join(' · ')}</p>
-            ) : null}
+    <article className={`ajx-card p-5 sm:p-6 ${active ? 'border-sky-brand/30' : ''}`}>
+      <div className="flex items-start gap-3 sm:gap-4">
+        <span className="hidden ajx-meta text-white/25 sm:inline">{String(index).padStart(2, '0')}</span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex min-w-0 gap-3">
+              <DiscCover src={beat.coverUrl} alt="" className="size-12 sm:size-14" />
+              <div className="min-w-0">
+                <h3 className="truncate text-base font-bold text-white sm:text-lg">{beat.title}</h3>
+                <p className="mt-1 ajx-meta">
+                  {beat.bpm}bpm · {beat.key}
+                </p>
+                {beat.tags.length ? (
+                  <p className="mt-2 ajx-label">{beat.tags.join(' / ')}</p>
+                ) : null}
+              </div>
+            </div>
+            <p className="text-xl font-bold tabular-nums text-white sm:text-right">£{price}</p>
+          </div>
+
+          <div className="mt-4 border-t border-white/10 pt-4 sm:mt-5">
+            <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-3 sm:flex sm:flex-wrap">
+              {LICENSE_TIERS.map((option) => {
+                const tierPrice = beatPriceForTier(beat, option.id)
+                return (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => setTier(option.id)}
+                    className={`min-h-10 rounded-lg border px-2 py-2 text-xs font-medium transition sm:px-3 ${
+                      tier === option.id
+                        ? 'border-sky-brand bg-sky-brand text-navy-950'
+                        : 'border-white/15 text-white/60 hover:border-white/30 hover:text-white'
+                    }`}
+                  >
+                    {option.label} · £{tierPrice}
+                  </button>
+                )
+              })}
+            </div>
+            {tierInfo ? <p className="mt-2 text-xs leading-relaxed text-white/45 sm:text-sm">{tierInfo.summary}</p> : null}
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <button type="button" onClick={onPlay} className="ajx-btn-ghost min-h-10 !w-full px-3 sm:!w-auto sm:px-4">
+              {active ? 'Playing' : 'Play'}
+            </button>
+            <button
+              type="button"
+              onClick={() => void buy()}
+              disabled={buying}
+              className="ajx-btn-primary min-h-10 !w-full px-3 disabled:opacity-50 sm:!w-auto sm:px-4"
+            >
+              {buying ? '…' : `Buy · £${price}`}
+            </button>
           </div>
         </div>
-        <p className="text-sm font-semibold text-white">£{price}</p>
-      </div>
-
-      <div className="mt-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-white/40">License</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {LICENSE_TIERS.map((option) => (
-            <button
-              key={option.id}
-              type="button"
-              onClick={() => setTier(option.id)}
-              className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
-                tier === option.id
-                  ? 'bg-sky-brand text-navy-950'
-                  : 'border border-white/10 text-white/60 hover:border-sky-brand/30 hover:text-white'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-        {tierInfo ? <p className="mt-2 text-xs leading-relaxed text-white/45">{tierInfo.summary}</p> : null}
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        <button type="button" onClick={onPlay} className="ajx-btn-ghost min-h-10 px-4 text-xs">
-          {active ? 'Playing' : 'Preview'}
-        </button>
-        <button
-          type="button"
-          onClick={() => void buy()}
-          disabled={buying}
-          className="ajx-btn-primary min-h-10 px-4 text-xs disabled:opacity-60"
-        >
-          {buying ? 'Redirecting…' : `Buy ${tierInfo?.label.toLowerCase() ?? 'lease'}`}
-        </button>
       </div>
     </article>
   )

@@ -1,5 +1,9 @@
 import { useState, type FormEvent } from 'react'
-import { LICENSE_TIERS } from '@/config/site'
+import { PAGE_SEO } from '@/config/pageSeo'
+import { PageHeader } from '@/components/PageHeader'
+import { DEFAULT_TIER_PRICES, LICENSE_TIERS } from '@/config/site'
+
+const ADMIN = PAGE_SEO['/admin']
 
 type UploadState = 'idle' | 'uploading' | 'done' | 'error'
 
@@ -52,8 +56,9 @@ export function AdminPage() {
     return (
       <div className="ajx-container py-16 sm:py-20">
         <div className="mx-auto max-w-md ajx-card p-6">
-          <h1 className="text-xl font-bold">Admin</h1>
-          <p className="mt-2 text-sm text-white/55">Upload beats, lease files, and tier pricing.</p>
+          <p className="page-eyebrow">{ADMIN.eyebrow ?? 'Admin'}</p>
+          <h1 className="page-h1 mt-3 text-3xl">Sign in</h1>
+          <p className="mt-2 text-sm text-white/55">Upload beats, lease files, and pricing.</p>
           <form onSubmit={login} className="mt-6 space-y-4">
             <label className="block text-sm text-white/70">
               Password
@@ -61,7 +66,7 @@ export function AdminPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-sky-brand/50"
+                className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-white/40"
               />
             </label>
             <button type="submit" className="ajx-btn-primary w-full">
@@ -75,13 +80,11 @@ export function AdminPage() {
 
   return (
     <div className="ajx-container py-12 sm:py-16">
-      <header className="max-w-2xl">
-        <h1 className="text-3xl font-bold tracking-tight">Upload beat</h1>
-        <p className="mt-3 text-sm text-white/55">
-          MP3 preview for the store plus a lease file (ZIP/WAV) emailed after Stripe checkout. Files store in Vercel
-          Blob when configured.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow={ADMIN.eyebrow ?? 'Admin'}
+        title={ADMIN.h1}
+        description="MP3 preview powers the live waveform. Lease files go out by email after purchase."
+      />
 
       <form onSubmit={upload} className="mt-10 max-w-xl space-y-4 ajx-card p-6">
         <label className="block text-sm text-white/70">
@@ -89,7 +92,7 @@ export function AdminPage() {
           <input
             name="title"
             required
-            className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-sky-brand/50"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-white/40"
           />
         </label>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -102,7 +105,7 @@ export function AdminPage() {
               max={220}
               required
               defaultValue={140}
-              className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-sky-brand/50"
+              className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-white/40"
             />
           </label>
           <label className="block text-sm text-white/70">
@@ -111,20 +114,20 @@ export function AdminPage() {
               name="key"
               required
               placeholder="F# min"
-              className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-sky-brand/50"
+              className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-white/40"
             />
           </label>
         </div>
         <label className="block text-sm text-white/70">
-          Base price (£) — basic tier fallback
+          Base price (£), basic tier fallback
           <input
             name="priceGbp"
             type="number"
             min={1}
             step={1}
             required
-            defaultValue={29}
-            className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-sky-brand/50"
+            defaultValue={DEFAULT_TIER_PRICES.basic}
+            className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-white/40"
           />
         </label>
         <fieldset className="space-y-3">
@@ -138,8 +141,8 @@ export function AdminPage() {
                   type="number"
                   min={1}
                   step={1}
-                  placeholder="Optional"
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-3 py-2 text-sm text-white outline-none focus:border-sky-brand/50"
+                  defaultValue={DEFAULT_TIER_PRICES[tier.id]}
+                  className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-3 py-2 text-sm text-white outline-none focus:border-white/40"
                 />
               </label>
             ))}
@@ -150,21 +153,29 @@ export function AdminPage() {
           <input
             name="tags"
             placeholder="trap, dark"
-            className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-sky-brand/50"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-white/40"
           />
         </label>
         <label className="block text-sm text-white/70">
-          MP3 preview
+          SoundCloud or YouTube link (embedded preview)
+          <input
+            name="embedUrl"
+            type="url"
+            placeholder="https://soundcloud.com/user-335209347/..."
+            className="mt-2 w-full rounded-xl border border-white/10 bg-navy-950 px-4 py-3 text-white outline-none focus:border-white/40"
+          />
+        </label>
+        <label className="block text-sm text-white/70">
+          MP3 preview (optional if embed link added)
           <input
             name="previewFile"
             type="file"
             accept="audio/mpeg,audio/mp3,.mp3"
-            required
             className="mt-2 block w-full text-sm text-white/60 file:mr-4 file:rounded-full file:border-0 file:bg-sky-brand file:px-4 file:py-2 file:text-sm file:font-semibold file:text-navy-950"
           />
         </label>
         <label className="block text-sm text-white/70">
-          Lease file (ZIP/WAV — emailed after purchase)
+          Lease file (ZIP/WAV, emailed after purchase)
           <input
             name="leaseFile"
             type="file"
@@ -176,7 +187,7 @@ export function AdminPage() {
           {status === 'uploading' ? 'Uploading…' : 'Publish beat'}
         </button>
         {message ? (
-          <p className={`text-sm ${status === 'error' ? 'text-red-300' : 'text-sky-light'}`}>{message}</p>
+          <p className={`text-sm ${status === 'error' ? 'text-red-300' : 'text-white/80'}`}>{message}</p>
         ) : null}
       </form>
     </div>

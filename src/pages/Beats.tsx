@@ -1,14 +1,19 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Beat } from '@/config/site'
-import { LICENSE_TIERS } from '@/config/site'
+import { PAGE_SEO } from '@/config/pageSeo'
+import { SITE } from '@/config/site'
 import { BeatCard } from '@/components/BeatCard'
 import { BeatPlayer } from '@/components/BeatPlayer'
+import { PageHeader } from '@/components/PageHeader'
 import { fetchBeats } from '@/lib/beats'
+
+const BEATS = PAGE_SEO['/beats']
 
 export function BeatsPage() {
   const [beats, setBeats] = useState<Beat[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [playSession, setPlaySession] = useState(0)
   const [loading, setLoading] = useState(true)
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -34,61 +39,65 @@ export function BeatsPage() {
     return () => window.clearTimeout(timer)
   }, [paid, canceled, setSearchParams])
 
+  function selectBeat(id: string) {
+    setActiveId(id)
+    setPlaySession((session) => session + 1)
+    if (window.matchMedia('(max-width: 1023px)').matches) {
+      window.requestAnimationFrame(() => {
+        document.getElementById('beat-player')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    }
+  }
+
   return (
-    <div className="ajx-container py-12 sm:py-16">
-      <header className="max-w-2xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-brand">Store</p>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Beats</h1>
-        <p className="mt-3 text-sm leading-relaxed text-white/55 sm:text-base">
-          Preview before you buy. Choose basic, premium, or exclusive — files are emailed after payment.
-        </p>
-      </header>
+    <div className="ajx-container py-16 sm:py-24">
+      <PageHeader title={BEATS.h1} description={BEATS.pageLead ?? BEATS.description} />
 
       {paid ? (
-        <div className="mt-6 rounded-2xl border border-sky-brand/30 bg-sky-brand/10 px-5 py-4 text-sm text-sky-light">
-          Payment received. Check your inbox for download links within a few minutes.
+        <div className="ajx-card mt-8 px-5 py-4 text-sm text-white/75">
+          Payment received. Your download link is on the way. Check your inbox.
         </div>
       ) : null}
       {canceled ? (
-        <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-white/60">
-          Checkout canceled — pick a license tier when you are ready.
+        <div className="ajx-card mt-8 px-5 py-4 text-sm text-white/45">
+          Checkout cancelled. Your cart is still here when you are ready.
         </div>
       ) : null}
 
-      <section className="mt-10 grid gap-4 sm:grid-cols-3">
-        {LICENSE_TIERS.map((tier) => (
-          <div key={tier.id} className="ajx-card p-4">
-            <h2 className="text-sm font-semibold text-white">{tier.label}</h2>
-            <p className="mt-2 text-xs leading-relaxed text-white/50">{tier.summary}</p>
-            <ul className="mt-3 space-y-1 text-xs text-white/45">
-              {tier.includes.map((item) => (
-                <li key={item}>· {item}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-
       {loading ? (
-        <p className="mt-10 text-sm text-white/45">Loading beats…</p>
+        <p className="mt-16 text-sm text-white/40">Loading…</p>
       ) : (
-        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-          <div className="space-y-3">
-            {beats.map((beat) => (
+        <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-16">
+          <div id="beat-player" className="order-1 lg:sticky lg:top-24 lg:order-2 lg:self-start">
+            {activeBeat ? (
+              <BeatPlayer
+                key={`${activeBeat.id}-${playSession}`}
+                beat={activeBeat}
+                autoPlay={playSession > 0}
+                playSession={playSession}
+              />
+            ) : null}
+            <p className="mt-6 text-sm leading-relaxed text-white/40">
+              Need a custom beat?{' '}
+              <Link to="/book" className="ajx-link no-underline hover:underline">
+                Book a session
+              </Link>{' '}
+              or email{' '}
+              <a href={`mailto:${SITE.email}`} className="ajx-link no-underline hover:underline">
+                {SITE.email}
+              </a>
+            </p>
+          </div>
+          <div className="order-2 space-y-4 lg:order-1">
+            {beats.map((beat, index) => (
               <BeatCard
                 key={beat.id}
                 beat={beat}
+                index={index + 1}
                 active={beat.id === activeBeat?.id}
-                onPlay={() => setActiveId(beat.id)}
+                onPlay={() => selectBeat(beat.id)}
               />
             ))}
-          </div>
-          <div className="lg:sticky lg:top-24 lg:self-start">
-            {activeBeat ? <BeatPlayer beat={activeBeat} /> : null}
-            <p className="mt-4 text-xs leading-relaxed text-white/40">
-              Need a custom license? <Link to="/book" className="ajx-link">Book a session</Link> or email after purchase
-              for upgrades.
-            </p>
           </div>
         </div>
       )}
