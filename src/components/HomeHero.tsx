@@ -34,11 +34,11 @@ export function HomeHero() {
             <p className="mt-6 ajx-meta">Trap · Drill · R&B · from £29</p>
 
             <div className="mt-10 flex flex-col gap-3 min-[420px]:flex-row">
-              <Link to="/beats" className="ajx-btn-primary">
-                Browse beats
-              </Link>
-              <Link to="/book" className="ajx-btn-ghost">
+              <Link to="/book" className="ajx-btn-primary">
                 Book a session
+              </Link>
+              <Link to="/beats" className="ajx-btn-ghost">
+                Browse beats
               </Link>
             </div>
 
