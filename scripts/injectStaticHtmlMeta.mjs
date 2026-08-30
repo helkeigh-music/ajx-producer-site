@@ -34,6 +34,7 @@ const PAGE_SEO = {
   '/404': {
     title: 'Page not found | prodbyajx',
     description: 'The page you requested could not be found.',
+    h1: 'Page not found',
     robots: 'noindex, nofollow',
   },
 }
@@ -67,23 +68,31 @@ function escapeHtml(s) {
     .replace(/>/g, '&gt;')
 }
 
-function injectMeta(html, path) {
+function injectMeta(html, path, options = {}) {
   const m = resolvePageMeta(path)
   const title = escapeHtml(m.title)
   const desc = escapeHtml(m.description)
   const ogImg = escapeHtml(m.ogImage)
   const ogU = escapeHtml(m.canonicalUrl)
+  const isNotFound = path === '/404'
 
   let out = html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
   out = out.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/, `<meta name="description" content="${desc}" />`)
   out = out.replace(/<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/, `<meta property="og:title" content="${title}" />`)
   out = out.replace(/<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/, `<meta property="og:description" content="${desc}" />`)
-  out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/, `<meta property="og:url" content="${ogU}" />`)
+  if (!isNotFound) {
+    out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/, `<meta property="og:url" content="${ogU}" />`)
+  }
   out = out.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/, `<meta property="og:image" content="${ogImg}" />`)
   out = out.replace(/<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/?>/, `<meta name="twitter:title" content="${title}" />`)
   out = out.replace(/<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/, `<meta name="twitter:description" content="${desc}" />`)
   out = out.replace(/<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/, `<meta name="twitter:image" content="${ogImg}" />`)
-  out = out.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${ogU}" />`)
+
+  if (isNotFound) {
+    out = out.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>\s*/i, '')
+  } else {
+    out = out.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${ogU}" />`)
+  }
 
   if (m.robots) {
     if (/<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/.test(out)) {
@@ -91,11 +100,25 @@ function injectMeta(html, path) {
     } else {
       out = out.replace(/<\/head>/i, `    <meta name="robots" content="${escapeHtml(m.robots)}" />\n  </head>`)
     }
+    if (/<meta\s+name="googlebot"\s+content="[^"]*"\s*\/?>/.test(out)) {
+      out = out.replace(/<meta\s+name="googlebot"\s+content="[^"]*"\s*\/?>/, `<meta name="googlebot" content="${escapeHtml(m.robots)}" />`)
+    }
   } else {
     out = out.replace(/<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/, `<meta name="robots" content="index, follow" />`)
   }
 
+  if (options.rootHtml) {
+    out = out.replace('<div id="root"></div>', `<div id="root">${options.rootHtml}</div>`)
+  }
+
   return out
+}
+
+function notFoundFallbackHtml() {
+  const seo = PAGE_SEO['/404']
+  const title = escapeHtml(seo.h1)
+  const desc = escapeHtml(seo.description)
+  return `<div class="ajx-container py-16 sm:py-24"><header class="max-w-2xl pb-10 sm:pb-12"><h1 class="page-h1">${title}</h1><p class="hero-sub mt-3 max-w-xl sm:mt-4">${desc}</p></header><a href="/" class="ajx-link mt-8 inline-block text-sm font-medium">Back to home</a></div>`
 }
 
 function distDirForRoute(routePath) {
@@ -119,7 +142,7 @@ async function main() {
     }
   }
 
-  const notFoundHtml = injectMeta(template, '/404')
+  const notFoundHtml = injectMeta(template, '/404', { rootHtml: notFoundFallbackHtml() })
   await writeFile(join(dist, '404.html'), notFoundHtml, 'utf8')
   console.log('Injected meta for 404.html')
 }
