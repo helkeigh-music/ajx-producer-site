@@ -9,6 +9,9 @@ export const BRAND = {
   },
 } as const
 
+/** GA4 web stream — set VITE_GA_MEASUREMENT_ID on Vercel after creating the property in Google Analytics. */
+export const GA_MEASUREMENT_ID = '' as const
+
 export const SITE = {
   title: 'Type Beats Manchester | Trap, Drill & R&B | prodbyajx',
   description: 'Trap, drill and R&B type beats. Studio sessions in Manchester.',

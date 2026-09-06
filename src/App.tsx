@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { Layout } from '@/components/Layout'
 import { HomePage } from '@/pages/Home'
 import { BeatsPage } from '@/pages/Beats'
@@ -10,6 +11,7 @@ import { NotFoundPage } from '@/pages/NotFound'
 export function App() {
   return (
     <Layout>
+      <GoogleAnalytics />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/beats" element={<BeatsPage />} />
