@@ -1,3 +1,4 @@
+'use client'
 import { useMemo, useState } from 'react'
 import { DiscCover } from '@/components/DiscCover'
 import { EmbedPlayer } from '@/components/EmbedPlayer'

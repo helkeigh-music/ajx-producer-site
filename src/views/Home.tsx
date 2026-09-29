@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+'use client'
+
 import { HomeHero } from '@/components/HomeHero'
 import { LICENSE_TIERS } from '@/config/site'
 
@@ -15,9 +16,9 @@ export function HomePage() {
               Every beat has three license options. Pay online, files by email.
             </p>
           </div>
-          <Link to="/beats" className="text-sm font-medium text-sky-brand hover:text-sky-light">
+          <a href="/beats" className="text-sm font-medium text-sky-brand hover:text-sky-light">
             Open beat store
-          </Link>
+          </a>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-3 sm:gap-8">
@@ -44,20 +45,20 @@ export function HomePage() {
 
       <section className="ajx-divider border-t">
         <div className="ajx-container ajx-section grid gap-6 sm:grid-cols-2 sm:gap-8">
-          <Link to="/portfolio" className="ajx-card-hover block p-8 sm:p-10">
+          <a href="/portfolio" className="ajx-card-hover block p-8 sm:p-10">
             <h2 className="section-title">Portfolio</h2>
             <p className="mt-5 text-sm leading-relaxed text-white/45">
               YouTube releases, sample flips and session work.
             </p>
             <span className="mt-10 inline-block text-sm font-medium text-sky-brand">View portfolio</span>
-          </Link>
-          <Link to="/book" className="ajx-card-hover block p-8 sm:p-10">
+          </a>
+          <a href="/book" className="ajx-card-hover block p-8 sm:p-10">
             <h2 className="section-title">Studio sessions</h2>
             <p className="mt-5 text-sm leading-relaxed text-white/45">
               Custom beats, recording and mix. Pick a date on the calendar.
             </p>
             <span className="mt-10 inline-block text-sm font-medium text-sky-brand">Book a session</span>
-          </Link>
+          </a>
         </div>
       </section>
     </>

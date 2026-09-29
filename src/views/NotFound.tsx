@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+'use client'
+
 import { PageHeader } from '@/components/PageHeader'
 import { PAGE_SEO } from '@/config/pageSeo'
 
@@ -8,9 +9,9 @@ export function NotFoundPage() {
   return (
     <div className="ajx-container py-16 sm:py-24">
       <PageHeader title={NOT_FOUND.h1} description={NOT_FOUND.description} />
-      <Link to="/" className="ajx-link mt-8 inline-block text-sm font-medium">
+      <a href="/" className="ajx-link mt-8 inline-block text-sm font-medium">
         Back to home
-      </Link>
+      </a>
     </div>
   )
 }

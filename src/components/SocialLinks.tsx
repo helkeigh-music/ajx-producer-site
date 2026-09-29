@@ -1,3 +1,4 @@
+'use client'
 import { SITE } from '@/config/site'
 import { InstagramIcon, SoundCloudIcon, YouTubeIcon } from '@/components/icons/SocialIcons'
 

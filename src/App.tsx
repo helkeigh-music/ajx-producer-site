@@ -1,12 +1,12 @@
 import { Routes, Route } from 'react-router-dom'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { Layout } from '@/components/Layout'
-import { HomePage } from '@/pages/Home'
-import { BeatsPage } from '@/pages/Beats'
-import { PortfolioPage } from '@/pages/Portfolio'
-import { BookPage } from '@/pages/Book'
-import { AdminPage } from '@/pages/Admin'
-import { NotFoundPage } from '@/pages/NotFound'
+import { HomePage } from '@/views/Home'
+import { BeatsPage } from '@/views/Beats'
+import { PortfolioPage } from '@/views/Portfolio'
+import { BookPage } from '@/views/Book'
+import { AdminPage } from '@/views/Admin'
+import { NotFoundPage } from '@/views/NotFound'
 
 export function App() {
   return (

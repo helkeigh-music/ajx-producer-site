@@ -1,3 +1,4 @@
+'use client'
 import { DEFAULT_DISC_COVER } from '@/lib/covers'
 
 type Props = {

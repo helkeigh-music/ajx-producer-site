@@ -1,3 +1,4 @@
+'use client'
 import { BookingCalendar } from '@/components/BookingCalendar'
 import { PageHeader } from '@/components/PageHeader'
 import { PAGE_SEO } from '@/config/pageSeo'

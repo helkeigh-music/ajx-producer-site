@@ -1,5 +1,6 @@
+'use client'
+
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
 import type { Beat } from '@/config/site'
 import { PAGE_SEO } from '@/config/pageSeo'
 import { SITE } from '@/config/site'
@@ -15,7 +16,8 @@ export function BeatsPage() {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [playSession, setPlaySession] = useState(0)
   const [loading, setLoading] = useState(true)
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [paid, setPaid] = useState(false)
+  const [canceled, setCanceled] = useState(false)
 
   useEffect(() => {
     void fetchBeats().then((list) => {
@@ -25,19 +27,27 @@ export function BeatsPage() {
     })
   }, [])
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const isPaid = params.get('paid') === '1'
+    const isCanceled = params.get('canceled') === '1'
+    setPaid(isPaid)
+    setCanceled(isCanceled)
+    if (!isPaid && !isCanceled) return
+    const timer = window.setTimeout(() => {
+      const url = new URL(window.location.href)
+      url.search = ''
+      window.history.replaceState({}, '', url.pathname)
+      setPaid(false)
+      setCanceled(false)
+    }, 8000)
+    return () => window.clearTimeout(timer)
+  }, [])
+
   const activeBeat = useMemo(
     () => beats.find((b) => b.id === activeId) ?? beats[0] ?? null,
     [activeId, beats],
   )
-
-  const paid = searchParams.get('paid') === '1'
-  const canceled = searchParams.get('canceled') === '1'
-
-  useEffect(() => {
-    if (!paid && !canceled) return
-    const timer = window.setTimeout(() => setSearchParams({}, { replace: true }), 8000)
-    return () => window.clearTimeout(timer)
-  }, [paid, canceled, setSearchParams])
 
   function selectBeat(id: string) {
     setActiveId(id)
@@ -79,9 +89,9 @@ export function BeatsPage() {
             ) : null}
             <p className="mt-6 text-sm leading-relaxed text-white/40">
               Need a custom beat?{' '}
-              <Link to="/book" className="ajx-link no-underline hover:underline">
+              <a href="/book" className="ajx-link no-underline hover:underline">
                 Book a session
-              </Link>{' '}
+              </a>{' '}
               or email{' '}
               <a href={`mailto:${SITE.email}`} className="ajx-link no-underline hover:underline">
                 {SITE.email}
