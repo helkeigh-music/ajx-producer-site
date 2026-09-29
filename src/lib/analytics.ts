@@ -1,4 +1,5 @@
 import { GA_MEASUREMENT_ID as DEFAULT_GA_MEASUREMENT_ID } from '../config/site'
+import { publicEnv } from '@/lib/publicEnv'
 
 declare global {
   interface Window {
@@ -7,8 +8,7 @@ declare global {
   }
 }
 
-export const GA_MEASUREMENT_ID =
-  (import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined)?.trim() || DEFAULT_GA_MEASUREMENT_ID
+export const GA_MEASUREMENT_ID = publicEnv('GA_MEASUREMENT_ID', '') || DEFAULT_GA_MEASUREMENT_ID
 
 export function isAnalyticsEnabled(): boolean {
   return Boolean(GA_MEASUREMENT_ID && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX')

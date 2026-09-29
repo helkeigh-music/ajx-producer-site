@@ -1,3 +1,4 @@
+'use client'
 import { embedIframeSrc, getEmbedPlatform, isYoutubeShort, normalizeSoundCloudUrl } from '@/lib/embed'
 
 type Props = {

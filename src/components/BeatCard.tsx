@@ -1,3 +1,4 @@
+'use client'
 import { DiscCover } from '@/components/DiscCover'
 import type { Beat, LicenseTier } from '@/config/site'
 import { beatPriceForTier, LICENSE_TIERS } from '@/config/site'

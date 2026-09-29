@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { BRAND, SITE } from '@/config/site'
 import { sessionTypeById } from '@/config/booking'

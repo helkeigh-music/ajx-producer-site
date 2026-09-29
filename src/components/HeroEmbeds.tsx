@@ -1,5 +1,6 @@
+'use client'
+
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { EmbedPlayer } from '@/components/EmbedPlayer'
 import { SITE } from '@/config/site'
 import { fetchBeats } from '@/lib/beats'
@@ -35,9 +36,9 @@ export function HeroEmbeds() {
       <div className="flex items-end justify-between gap-3">
         <p className="ajx-label">Now spinning</p>
         {embeds.length > 1 ? (
-          <Link to="/beats" className="text-xs font-semibold text-white sm:hidden">
+          <a href="/beats" className="text-xs font-semibold text-white sm:hidden">
             All beats
-          </Link>
+          </a>
         ) : null}
       </div>
       {embeds.map((item, index) => (
@@ -58,3 +59,4 @@ export function HeroEmbeds() {
     </div>
   )
 }
+

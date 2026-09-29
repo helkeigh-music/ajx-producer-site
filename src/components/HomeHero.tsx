@@ -1,5 +1,6 @@
+'use client'
+
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { DiscCover } from '@/components/DiscCover'
 import { EmbedPlayer } from '@/components/EmbedPlayer'
 import { SocialLinks } from '@/components/SocialLinks'
@@ -34,12 +35,12 @@ export function HomeHero() {
             <p className="mt-6 ajx-meta">Trap · Drill · R&B · from £29</p>
 
             <div className="mt-10 flex flex-col gap-3 min-[420px]:flex-row">
-              <Link to="/book" className="ajx-btn-primary">
+              <a href="/book" className="ajx-btn-primary">
                 Book a session
-              </Link>
-              <Link to="/beats" className="ajx-btn-ghost">
+              </a>
+              <a href="/beats" className="ajx-btn-ghost">
                 Browse beats
-              </Link>
+              </a>
             </div>
 
             <SocialLinks className="mt-10" />
@@ -66,9 +67,9 @@ export function HomeHero() {
                       {heroBeat.bpm}bpm · {heroBeat.key}
                     </p>
                   </div>
-                  <Link to="/beats" className="shrink-0 text-xs font-medium text-sky-brand hover:text-sky-light">
+                  <a href="/beats" className="shrink-0 text-xs font-medium text-sky-brand hover:text-sky-light">
                     Beat store
-                  </Link>
+                  </a>
                 </div>
                 <div className="p-4">
                   <EmbedPlayer url={heroBeat.embedUrl} title={heroBeat.title} compact />
@@ -82,19 +83,19 @@ export function HomeHero() {
           <div className="ajx-divider mt-20 pt-16 sm:mt-24 sm:pt-20">
             <div className="mb-8 flex items-end justify-between gap-4">
               <h2 className="section-title">On the store now</h2>
-              <Link to="/beats" className="shrink-0 text-sm font-medium text-sky-brand hover:text-sky-light">
+              <a href="/beats" className="shrink-0 text-sm font-medium text-sky-brand hover:text-sky-light">
                 View all
-              </Link>
+              </a>
             </div>
             <div className="-mx-5 flex gap-4 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:-mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
               {featured.map((beat) => (
-                <Link key={beat.id} to="/beats" className="ajx-beat-tile w-[9.5rem] shrink-0 sm:w-[10.5rem]">
+                <a key={beat.id} href="/beats" className="ajx-beat-tile w-[9.5rem] shrink-0 sm:w-[10.5rem]">
                   <DiscCover src={beat.coverUrl} alt="" className="w-full" />
                   <p className="mt-4 truncate text-sm font-medium text-white">{beat.title}</p>
                   <p className="mt-1 ajx-meta">
                     {beat.bpm}bpm · {beat.tags[0] ?? beat.key}
                   </p>
-                </Link>
+                </a>
               ))}
             </div>
           </div>

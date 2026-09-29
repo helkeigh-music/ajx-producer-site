@@ -1,19 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    {
-      "source": "/((?!api|assets|images|fonts|audio|.*\\..*).*)",
-      "destination": "/index.html"
-    }
-  ],
-  "functions": {
-    "api/webhook/stripe.ts": {
-      "maxDuration": 30
-    }
-  }
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "trailingSlash": false
 }

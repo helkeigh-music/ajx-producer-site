@@ -1,3 +1,4 @@
+'use client'
 import { type ReactNode, useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { JsonLd } from '@/components/JsonLd'

@@ -1,3 +1,4 @@
+'use client'
 const TAGS = [
   'Manchester producer',
   'UK type beats',

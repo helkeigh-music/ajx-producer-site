@@ -1,3 +1,4 @@
+'use client'
 import { useState, type FormEvent } from 'react'
 import { PAGE_SEO } from '@/config/pageSeo'
 import { PageHeader } from '@/components/PageHeader'
@@ -48,7 +49,7 @@ export function AdminPage() {
       form.reset()
     } catch {
       setStatus('error')
-      setMessage('Upload failed. Run with `npm run dev:vercel` for API routes locally.')
+      setMessage('Upload failed. Run with `npm run dev` (Next) or `npm run dev:vercel` for API routes locally.')
     }
   }
 

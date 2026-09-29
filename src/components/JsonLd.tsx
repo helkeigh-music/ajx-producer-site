@@ -1,3 +1,4 @@
+'use client'
 type Props = {
   data: Record<string, unknown> | null
   id?: string

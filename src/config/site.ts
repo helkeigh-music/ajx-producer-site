@@ -9,23 +9,25 @@ export const BRAND = {
   },
 } as const
 
-/** GA4 web stream — set VITE_GA_MEASUREMENT_ID on Vercel after creating the property in Google Analytics. */
+import { publicEnv } from '@/lib/publicEnv'
+
+/** GA4 web stream — set NEXT_PUBLIC_GA_MEASUREMENT_ID (or VITE_GA_MEASUREMENT_ID) after creating the property. */
 export const GA_MEASUREMENT_ID = '' as const
 
 export const SITE = {
   title: 'Type Beats Manchester | Trap, Drill & R&B | prodbyajx',
   description: 'Trap, drill and R&B type beats. Studio sessions in Manchester.',
-  url: import.meta.env.VITE_SITE_URL ?? 'https://ajx-producer-site.vercel.app',
+  url: publicEnv('SITE_URL', 'https://ajx-producer-site.vercel.app'),
   bookingUrl: '/book',
-  email: 'prodbyajx@gmail.com',
-  phone: import.meta.env.VITE_CONTACT_PHONE ?? '+44 7496 181211',
-  phoneTel: import.meta.env.VITE_CONTACT_PHONE?.replace(/\s/g, '') ?? '+447496181211',
+  email: publicEnv('CONTACT_EMAIL', 'prodbyajx@gmail.com') || 'prodbyajx@gmail.com',
+  phone: publicEnv('CONTACT_PHONE', '+44 7496 181211'),
+  phoneTel: publicEnv('CONTACT_PHONE', '+44 7496 181211').replace(/\s/g, '') || '+447496181211',
   social: {
-    instagram: import.meta.env.VITE_SOCIAL_INSTAGRAM ?? 'https://www.instagram.com/prodbyajx/',
-    youtube: import.meta.env.VITE_SOCIAL_YOUTUBE ?? 'https://youtube.com/@prodbyajx',
-    soundcloud: import.meta.env.VITE_SOCIAL_SOUNDCLOUD ?? 'https://soundcloud.com/user-335209347',
-    spotify: import.meta.env.VITE_SOCIAL_SPOTIFY ?? '',
-    tiktok: import.meta.env.VITE_SOCIAL_TIKTOK ?? '',
+    instagram: publicEnv('SOCIAL_INSTAGRAM', 'https://www.instagram.com/prodbyajx/'),
+    youtube: publicEnv('SOCIAL_YOUTUBE', 'https://youtube.com/@prodbyajx'),
+    soundcloud: publicEnv('SOCIAL_SOUNDCLOUD', 'https://soundcloud.com/user-335209347'),
+    spotify: publicEnv('SOCIAL_SPOTIFY', ''),
+    tiktok: publicEnv('SOCIAL_TIKTOK', ''),
   },
 } as const
 
