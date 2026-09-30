@@ -31,13 +31,13 @@ const API_ROUTE_FILES = [
   'src/app/api/admin/beats/route.ts',
 ]
 
-/** Legacy Vite serverless handlers — must remain until parity + cutover */
+/** Legacy Vite serverless handlers — kept under legacy-api/ (not deployed as /api) */
 const LEGACY_API_FILES = [
-  'api/beats.ts',
-  'api/checkout.ts',
-  'api/booking.ts',
-  'api/webhook/stripe.ts',
-  'api/admin/beats.ts',
+  'legacy-api/beats.ts',
+  'legacy-api/checkout.ts',
+  'legacy-api/booking.ts',
+  'legacy-api/webhook/stripe.ts',
+  'legacy-api/admin/beats.ts',
 ]
 
 const REQUIRED_EXTRA_APP_FILES = ['src/app/not-found.tsx', 'src/app/layout.tsx', 'src/app/sitemap.ts']

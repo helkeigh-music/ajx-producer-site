@@ -40,7 +40,7 @@ Unchanged server secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_
 | `npm run verify:urls` | URL parity only |
 | `npm run dev` | Next.js (:3000) |
 | `npm run dev:vite` | Vite SPA |
-| `npm run dev:vercel` | Vercel CLI with legacy `api/` |
+| `npm run dev:vercel` | Vercel CLI with legacy `legacy-api/` |
 
 ## Public URL paths (identical)
 
@@ -66,7 +66,7 @@ Unchanged server secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_
 
 ## Gaps / not cut over yet
 
-- [ ] Remove legacy `api/` + Vite entry (`index.html`, `vite.config.ts`, `src/main.tsx`, `src/App.tsx`, `Layout` react-router) — **keep until explicit cutover**
+- [ ] Remove legacy `legacy-api/` + Vite entry (`index.html`, `vite.config.ts`, `src/main.tsx`, `src/App.tsx`, `Layout` react-router) — **keep until explicit cutover**
 - [ ] Flip `vercel.json` to Next — **keep Vite until cutover**
 - [ ] Rename production Vercel env vars to `NEXT_PUBLIC_*` — **leave production alone**
 - [ ] Shared in-app links currently use plain `<a href>` (works in Vite + Next; not `next/link` client transitions everywhere except `SiteShell` nav)
@@ -79,4 +79,8 @@ Unchanged server secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_
 1. Preview deploy of `nextjs` only (no production)
 2. Add `NEXT_PUBLIC_*` on preview; keep production Vite env untouched
 3. Switch `vercel.json` to Next after preview OK
-4. Then remove Vite/`api/` duplicates and drop `build:vite`
+4. Then remove Vite/`legacy-api/` duplicates and drop `build:vite`
+
+## Production API routing (Sep 2026)
+
+Root `api/` was renamed to `legacy-api/` so Vercel no longer deploys crashing serverless functions ahead of `src/app/api/**/route.ts`. Live booking/beats/checkout/webhook routes use the Next App Router handlers.
