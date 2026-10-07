@@ -50,12 +50,10 @@ export function PrivacyPolicyPage() {
             </li>
             <li>
               <strong className="text-white">Beat purchases:</strong> your email address, the beat and license you
-              bought, and the payment amount. Card details are entered on Stripe&apos;s secure checkout and never
-              reach us.
+              bought, and the payment amount. Card details are entered on a secure payment page and never reach us.
             </li>
             <li>
-              <strong className="text-white">Messages:</strong> anything you send us by email, phone, Instagram or
-              other social channels.
+              <strong className="text-white">Messages:</strong> anything you send us by email, phone or social media.
             </li>
             <li>
               <strong className="text-white">Website usage:</strong> pages visited, device and browser type, and how
@@ -85,40 +83,18 @@ export function PrivacyPolicyPage() {
 
         <PolicySection title="Cookies and analytics">
           <p>
-            We use Vercel Analytics, which counts page views without cookies. We may also use Google Analytics, which
-            sets cookies to measure visits. You can block analytics cookies in your browser settings or with the{' '}
-            <a
-              href="https://tools.google.com/dlpage/gaoptout"
-              className="ajx-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Google Analytics opt-out add-on
-            </a>
-            .
-          </p>
-          <p>
-            Beat previews and portfolio tracks may play through embedded YouTube or SoundCloud players. Those services
-            can set their own cookies when you play a track, under their own privacy policies.
+            We use analytics to see how many people visit the site and which pages they use, which may involve
+            cookies. Embedded music players can also set cookies when you play a track. You can block or delete
+            cookies in your browser settings and the site will still work.
           </p>
         </PolicySection>
 
         <PolicySection title="Who we share it with">
-          <p>We only share your data with services that help us run the site and deliver your order:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              <strong className="text-white">Stripe</strong> for card payments
-            </li>
-            <li>
-              <strong className="text-white">Vercel</strong> for website hosting, booking storage and analytics
-            </li>
-            <li>
-              <strong className="text-white">Resend</strong> for booking confirmations and download emails
-            </li>
-            <li>
-              <strong className="text-white">Google</strong> for analytics, if enabled
-            </li>
-          </ul>
+          <p>
+            We only share your data with trusted service providers that help us run the site and deliver your order,
+            such as payments, website hosting, email and analytics. They can only use it to provide those services to
+            us.
+          </p>
           <p>Some of these providers may process data outside the UK under recognised safeguards.</p>
         </PolicySection>
 
