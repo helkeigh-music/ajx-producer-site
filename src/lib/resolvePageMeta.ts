@@ -38,7 +38,7 @@ export function resolvePageMeta(path: string): ResolvedPageMeta {
   }
 }
 
-export const INDEXABLE_PATHS = ['/', '/beats', '/portfolio', '/book'] as const
+export const INDEXABLE_PATHS = ['/', '/beats', '/portfolio', '/book', '/privacy-policy'] as const
 
 export function isIndexablePath(path: string): boolean {
   const normalized = path === '/' ? '/' : path.replace(/\/$/, '') || '/'

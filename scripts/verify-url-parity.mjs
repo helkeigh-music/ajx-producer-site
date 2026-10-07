@@ -20,6 +20,7 @@ const PAGE_ROUTE_FILES = {
   '/beats': 'src/app/beats/page.tsx',
   '/portfolio': 'src/app/portfolio/page.tsx',
   '/book': 'src/app/book/page.tsx',
+  '/privacy-policy': 'src/app/privacy-policy/page.tsx',
   '/admin': 'src/app/admin/page.tsx',
 }
 

@@ -37,6 +37,13 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     h1: 'Book studio time',
     pageLead: 'Two hour slots, Monday to Saturday. I confirm every booking by email.',
   },
+  '/privacy-policy': {
+    title: 'Privacy Policy | prodbyajx',
+    description:
+      'How prodbyajx collects, uses and protects your details when you book a studio session, buy a beat license or browse the site.',
+    h1: 'Privacy policy',
+    pageLead: 'What we collect when you book or buy, why we need it, and your rights under UK GDPR.',
+  },
   '/admin': {
     title: 'Upload beats | prodbyajx',
     description: 'Admin upload for prodbyajx beat store.',
