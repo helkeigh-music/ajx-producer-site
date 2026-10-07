@@ -39,6 +39,7 @@ export function breadcrumbJsonLd(path: string) {
   if (path === '/beats') segments.push({ name: 'Beat store', path: '/beats' })
   if (path === '/portfolio') segments.push({ name: 'Portfolio', path: '/portfolio' })
   if (path === '/book') segments.push({ name: 'Book', path: '/book' })
+  if (path === '/privacy-policy') segments.push({ name: 'Privacy policy', path: '/privacy-policy' })
 
   if (segments.length <= 1) return null
 

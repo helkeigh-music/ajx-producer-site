@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { BRAND, SITE } from '@/config/site'
 import { sessionTypeById } from '@/config/booking'
 import { fetchBookedSlots, submitBooking, type BookedSlot } from '@/lib/booking'
@@ -635,6 +636,13 @@ export function BookingCalendar() {
                     />
                   </label>
                 </div>
+                <p className="mt-4 text-xs text-white/45">
+                  We use your details to confirm your booking. See our{' '}
+                  <Link href="/privacy-policy" className="ajx-link">
+                    privacy policy
+                  </Link>
+                  .
+                </p>
               </form>
             ) : null}
           </div>

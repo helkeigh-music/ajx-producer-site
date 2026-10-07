@@ -125,6 +125,9 @@ function SiteFooter() {
               {SITE.phone}
             </a>
           </div>
+          <Link href="/privacy-policy" className="mt-6 inline-block text-xs text-white/45 hover:text-white">
+            Privacy policy
+          </Link>
         </div>
         <div className="sm:text-right">
           <p className="mb-4 ajx-label">Social</p>
