@@ -14,7 +14,7 @@ import { publicEnv } from '@/lib/publicEnv'
 /** GA4 web stream — set NEXT_PUBLIC_GA_MEASUREMENT_ID (or VITE_GA_MEASUREMENT_ID) after creating the property. */
 export const GA_MEASUREMENT_ID = '' as const
 
-const DEFAULT_CONTACT_PHONE = '01925 506135'
+const DEFAULT_CONTACT_PHONE = '07496 181211'
 
 /** Display form or E.164 → `tel:` value with no spaces. */
 function toCallTel(phone: string): string {
@@ -22,7 +22,7 @@ function toCallTel(phone: string): string {
   if (compact.startsWith('+')) return compact
   if (compact.startsWith('0')) return `+44${compact.slice(1)}`
   if (compact.startsWith('44')) return `+${compact}`
-  return '+441925506135'
+  return '+447496181211'
 }
 
 const contactPhone = publicEnv('CONTACT_PHONE', DEFAULT_CONTACT_PHONE) || DEFAULT_CONTACT_PHONE
