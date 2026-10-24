@@ -18,10 +18,10 @@ export function PortfolioPage() {
   )
 
   return (
-    <div className="ajx-container py-16 sm:py-24">
+    <div className="ajx-container py-12 sm:py-16">
       <PageHeader title={PORTFOLIO_PAGE.h1} description={PORTFOLIO_PAGE.pageLead ?? PORTFOLIO_PAGE.description} />
 
-      <ul className="ajx-divider mt-16 divide-y divide-white/10">
+      <ul className="ajx-divider mt-4 divide-y divide-white/10">
         {PORTFOLIO.map((item, index) => (
           <li
             key={item.id}

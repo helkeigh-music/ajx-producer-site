@@ -2,7 +2,7 @@
 import { DiscCover } from '@/components/DiscCover'
 import type { Beat, LicenseTier } from '@/config/site'
 import { beatPriceForTier, LICENSE_TIERS } from '@/config/site'
-import { createCheckout } from '@/lib/beats'
+import { beatPurchaseWhatsAppMessage, whatsAppHref } from '@/lib/whatsapp'
 import { useState } from 'react'
 
 type Props = {
@@ -14,20 +14,15 @@ type Props = {
 
 export function BeatCard({ beat, index, active, onPlay }: Props) {
   const [tier, setTier] = useState<LicenseTier>('basic')
-  const [buying, setBuying] = useState(false)
   const price = beatPriceForTier(beat, tier)
   const tierInfo = LICENSE_TIERS.find((t) => t.id === tier)
-
-  async function buy() {
-    setBuying(true)
-    const result = await createCheckout(beat.id, tier)
-    setBuying(false)
-    if ('url' in result) {
-      window.location.href = result.url
-      return
-    }
-    alert(result.error)
-  }
+  const buyHref = whatsAppHref(
+    beatPurchaseWhatsAppMessage({
+      title: beat.title,
+      tier: tierInfo?.label ?? 'Basic',
+      priceGbp: price,
+    }),
+  )
 
   return (
     <article className={`ajx-card p-5 sm:p-6 ${active ? 'border-sky-brand/30' : ''}`}>
@@ -77,14 +72,14 @@ export function BeatCard({ beat, index, active, onPlay }: Props) {
             <button type="button" onClick={onPlay} className="ajx-btn-ghost min-h-10 !w-full px-3 sm:!w-auto sm:px-4">
               {active ? 'Playing' : 'Play'}
             </button>
-            <button
-              type="button"
-              onClick={() => void buy()}
-              disabled={buying}
-              className="ajx-btn-primary min-h-10 !w-full px-3 disabled:opacity-50 sm:!w-auto sm:px-4"
+            <a
+              href={buyHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ajx-btn-primary min-h-10 !w-full px-3 sm:!w-auto sm:px-4"
             >
-              {buying ? '…' : `Buy · £${price}`}
-            </button>
+              {`Buy · £${price}`}
+            </a>
           </div>
         </div>
       </div>

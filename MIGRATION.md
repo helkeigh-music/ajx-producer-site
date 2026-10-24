@@ -9,7 +9,7 @@
 - No `git push`, no production deploy, no production DNS/env changes.
 - Vite sources and legacy `api/*.ts` remain until explicit cutover.
 - `vercel.json` still targets **Vite** (`npm run build:vite` → `dist`) so an accidental deploy does not flip production to Next.
-- Stripe / webhook / admin handlers are **copied** into `src/app/api/**/route.ts`; originals remain under `api/`.
+- Booking / admin handlers are **copied** into `src/app/api/**/route.ts`; originals remain under `legacy-api/`. Stripe checkout and the Stripe webhook have been removed.
 
 ## Env renames
 
@@ -23,11 +23,10 @@
 | `VITE_SOCIAL_SOUNDCLOUD` | `NEXT_PUBLIC_SOCIAL_SOUNDCLOUD` |
 | `VITE_SOCIAL_SPOTIFY` | `NEXT_PUBLIC_SOCIAL_SPOTIFY` |
 | `VITE_SOCIAL_TIKTOK` | `NEXT_PUBLIC_SOCIAL_TIKTOK` |
-| `VITE_STRIPE_PUBLISHABLE_KEY` | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` |
 | `VITE_GA_MEASUREMENT_ID` | `NEXT_PUBLIC_GA_MEASUREMENT_ID` |
 | `VITE_BOOKING_URL` | Unused in UI (booking is `/book`); optional / omit |
 
-Unchanged server secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`, `ADMIN_PASSWORD`, `BLOB_READ_WRITE_TOKEN`, `ADMIN_ALLOWED_ORIGINS`, `BOOKING_NOTIFY_EMAIL`.
+Unchanged server secrets: `RESEND_API_KEY`, `EMAIL_FROM`, `ADMIN_PASSWORD`, `BLOB_READ_WRITE_TOKEN`, `ADMIN_ALLOWED_ORIGINS`, `BOOKING_NOTIFY_EMAIL`.
 
 `src/lib/publicEnv.ts` reads **either** `NEXT_PUBLIC_*` or `VITE_*` so both builds work. **Do not rename Vercel production env vars until cutover.**
 
@@ -49,9 +48,7 @@ Unchanged server secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_
 ## API paths (identical)
 
 - `GET /api/beats`
-- `POST /api/checkout`
 - `GET\|POST /api/booking`
-- `POST /api/webhook/stripe`
 - `POST /api/admin/beats`
 
 ## Verified locally
@@ -83,4 +80,4 @@ Unchanged server secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_
 
 ## Production API routing (Sep 2026)
 
-Root `api/` was renamed to `legacy-api/` so Vercel no longer deploys crashing serverless functions ahead of `src/app/api/**/route.ts`. Live booking/beats/checkout/webhook routes use the Next App Router handlers.
+Root `api/` was renamed to `legacy-api/` so Vercel no longer deploys crashing serverless functions ahead of `src/app/api/**/route.ts`. Live booking, beats, and admin upload routes use the Next App Router handlers.

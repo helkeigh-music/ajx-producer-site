@@ -17,8 +17,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
-        heading: ['Syne', 'system-ui', 'sans-serif'],
+        sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
+        heading: ['Besley', 'system-ui', 'sans-serif'],
       },
       spacing: {
         'safe-b': 'env(safe-area-inset-bottom, 0px)',

@@ -19,7 +19,7 @@
   h2,
   h3,
   h4 {
-    font-family: Syne, system-ui, sans-serif;
+    font-family: Besley, system-ui, sans-serif;
     text-wrap: balance;
   }
 
@@ -84,7 +84,7 @@
 
   .page-h1 {
     @apply max-w-[18ch] font-bold leading-[1.08] tracking-tight text-white;
-    font-family: Syne, system-ui, sans-serif;
+    font-family: Besley, system-ui, sans-serif;
     font-size: clamp(2rem, calc(0.5rem + 5vw), 3.25rem);
   }
 
@@ -92,12 +92,8 @@
     @apply max-w-lg text-base leading-relaxed text-white/55 sm:text-[1.0625rem];
   }
 
-  .hero-kicker {
-    @apply ajx-label;
-  }
-
   .section-title {
-    font-family: Syne, system-ui, sans-serif;
+    font-family: Besley, system-ui, sans-serif;
     @apply text-xl font-bold tracking-tight text-white sm:text-2xl;
   }
 

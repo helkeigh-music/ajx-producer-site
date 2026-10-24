@@ -64,18 +64,3 @@ export function verifyAdminPassword(password: string | null | undefined): boolea
   return password === expected
 }
 
-export function priceForTier(beat: StoredBeat, tier: LicenseTier): number {
-  if (beat.prices?.[tier] != null) return beat.prices[tier]!
-  if (tier === 'basic') return beat.priceGbp
-  const defaults = { basic: 29, premium: 69, exclusive: 249 } as const
-  return defaults[tier]
-}
-
-export function leaseUrlForTier(beat: StoredBeat, tier: LicenseTier): string | null {
-  return beat.leaseFiles?.[tier] ?? beat.leaseFiles?.basic ?? beat.audioUrl ?? null
-}
-
-export async function removeBeatFromCatalog(beatId: string): Promise<void> {
-  const beats = await readCatalog()
-  await writeCatalog(beats.filter((beat) => beat.id !== beatId))
-}

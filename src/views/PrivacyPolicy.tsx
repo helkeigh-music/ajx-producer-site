@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react'
-import Link from 'next/link'
 import { PageHeader } from '@/components/PageHeader'
 import { PAGE_SEO } from '@/config/pageSeo'
 import { BRAND, SITE } from '@/config/site'
+import { BEATS_WHATSAPP_MESSAGE, ENQUIRE_WHATSAPP_MESSAGE, whatsAppHref } from '@/lib/whatsapp'
 
 const PRIVACY = PAGE_SEO['/privacy-policy']
-const LAST_UPDATED = '7 October 2026'
+const LAST_UPDATED = '23 October 2026'
 
 function PolicySection({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -26,8 +26,9 @@ export function PrivacyPolicyPage() {
 
         <PolicySection title="Who we are">
           <p>
-            {BRAND.name} is a music producer based in {BRAND.location}, selling beat licenses online and running
-            studio sessions. We are the data controller for personal information collected through this website.
+            {BRAND.name} is a music producer based in {BRAND.location}, listing beats and running studio sessions.
+            Beat enquiries go through WhatsApp. We do not take card payments on this site. We are the data controller
+            for personal information collected through this website.
           </p>
           <p>
             Questions about your data? Email{' '}
@@ -49,11 +50,11 @@ export function PrivacyPolicyPage() {
               give it, the session type, date and time, and any notes you add.
             </li>
             <li>
-              <strong className="text-white">Beat purchases:</strong> your email address, the beat and license you
-              bought, and the payment amount. Card details are entered on a secure payment page and never reach us.
+              <strong className="text-white">Beat enquiries:</strong> if you message on WhatsApp about a beat, that
+              conversation stays on WhatsApp. This site does not collect card details.
             </li>
             <li>
-              <strong className="text-white">Messages:</strong> anything you send us by email, phone or social media.
+              <strong className="text-white">Messages:</strong> anything you send us by email, phone, WhatsApp or social media.
             </li>
             <li>
               <strong className="text-white">Website usage:</strong> pages visited, device and browser type, and how
@@ -65,8 +66,7 @@ export function PrivacyPolicyPage() {
         <PolicySection title="How we use it">
           <ul className="list-disc space-y-2 pl-5">
             <li>To confirm and manage studio bookings</li>
-            <li>To process beat purchases and email your download link and license</li>
-            <li>To reply to your messages</li>
+            <li>To reply to your messages, including WhatsApp enquiries about a beat</li>
             <li>To keep records for tax and accounting</li>
             <li>To understand how the site is used and improve it</li>
           </ul>
@@ -75,9 +75,8 @@ export function PrivacyPolicyPage() {
 
         <PolicySection title="Legal basis">
           <p>
-            We process booking and purchase details because they are needed to provide the session or license you
-            asked for (contract). We keep financial records because the law requires it (legal obligation). We use
-            analytics to run and improve the site (legitimate interests).
+            We process booking details because they are needed to provide the session you asked for (contract). We
+            use analytics to run and improve the site (legitimate interests).
           </p>
         </PolicySection>
 
@@ -91,17 +90,16 @@ export function PrivacyPolicyPage() {
 
         <PolicySection title="Who we share it with">
           <p>
-            We only share your data with trusted service providers that help us run the site and deliver your order,
-            such as payments, website hosting, email and analytics. They can only use it to provide those services to
-            us.
+            We only share your data with trusted service providers that help us run the site, such as website hosting,
+            email and analytics. They can only use it to provide those services to us.
           </p>
           <p>Some of these providers may process data outside the UK under recognised safeguards.</p>
         </PolicySection>
 
         <PolicySection title="How long we keep it">
           <p>
-            Booking details are kept for up to 24 months after your session. Purchase and payment records are kept for
-            7 years for tax purposes. Analytics data is kept for up to 14 months.
+            Booking details are kept for up to 24 months after your session. Analytics data is kept for up to 14
+            months.
           </p>
         </PolicySection>
 
@@ -126,13 +124,23 @@ export function PrivacyPolicyPage() {
         <PolicySection title="Changes to this policy">
           <p>
             We may update this policy from time to time. The latest version is always on this page.{' '}
-            <Link href="/book" className="ajx-link">
+            <a
+              href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ajx-link"
+            >
               Book a session
-            </Link>{' '}
+            </a>{' '}
             or{' '}
-            <Link href="/beats" className="ajx-link">
+            <a
+              href={whatsAppHref(BEATS_WHATSAPP_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ajx-link"
+            >
               browse beats
-            </Link>
+            </a>
             .
           </p>
         </PolicySection>

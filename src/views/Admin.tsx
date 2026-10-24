@@ -57,8 +57,7 @@ export function AdminPage() {
     return (
       <div className="ajx-container py-16 sm:py-20">
         <div className="mx-auto max-w-md ajx-card p-6">
-          <p className="page-eyebrow">{ADMIN.eyebrow ?? 'Admin'}</p>
-          <h1 className="page-h1 mt-3 text-3xl">Sign in</h1>
+          <h1 className="page-h1 text-3xl">Sign in</h1>
           <p className="mt-2 text-sm text-white/55">Upload beats, lease files, and pricing.</p>
           <form onSubmit={login} className="mt-6 space-y-4">
             <label className="block text-sm text-white/70">
@@ -82,9 +81,8 @@ export function AdminPage() {
   return (
     <div className="ajx-container py-12 sm:py-16">
       <PageHeader
-        eyebrow={ADMIN.eyebrow ?? 'Admin'}
         title={ADMIN.h1}
-        description="MP3 preview powers the live waveform. Lease files go out by email after purchase."
+        description="MP3 preview powers the live waveform. Published beats show on the store. Visitors message on WhatsApp to buy."
       />
 
       <form onSubmit={upload} className="mt-10 max-w-xl space-y-4 ajx-card p-6">
@@ -176,7 +174,7 @@ export function AdminPage() {
           />
         </label>
         <label className="block text-sm text-white/70">
-          Lease file (ZIP/WAV, emailed after purchase)
+          Lease file (ZIP/WAV, optional)
           <input
             name="leaseFile"
             type="file"

@@ -8,7 +8,7 @@ const root = join(__dir, '..')
 const dist = join(root, 'dist')
 const publicDir = join(root, 'public')
 
-const SITE_URL = (process.env.VITE_SITE_URL ?? 'https://ajx-producer-site.vercel.app').replace(/\/$/, '')
+const SITE_URL = (process.env.VITE_SITE_URL ?? 'https://prodbyajx.com').replace(/\/$/, '')
 const now = new Date().toISOString()
 
 function getCanonicalUrl(path) {

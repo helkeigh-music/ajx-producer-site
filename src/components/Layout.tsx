@@ -7,12 +7,12 @@ import { PAGE_SEO, pageSeoForPath } from '@/config/pageSeo'
 import { BRAND, SITE } from '@/config/site'
 import { usePageSeo } from '@/hooks/usePageSeo'
 import { breadcrumbJsonLd, homeJsonLd } from '@/lib/schema'
+import { ENQUIRE_WHATSAPP_MESSAGE, whatsAppHref } from '@/lib/whatsapp'
 
 const nav = [
   { to: '/beats', label: 'Beats' },
   { to: '/portfolio', label: 'Portfolio' },
   { to: '/book', label: 'Book' },
-  { to: '/admin', label: 'Upload' },
 ]
 
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {
@@ -119,13 +119,21 @@ export function SiteFooter() {
           <p className="mt-2 ajx-meta">{BRAND.location}</p>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/45">{SITE.description}</p>
           <div className="mt-6 flex flex-col gap-2 text-sm">
-            <a href={`mailto:${SITE.email}`} className="ajx-link">
+            <a
+              href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ajx-link"
+            >
               {SITE.email}
             </a>
             <a href={`tel:${SITE.phoneTel}`} className="ajx-link">
               {SITE.phone}
             </a>
           </div>
+          <Link to="/admin" className="mt-6 inline-block text-xs text-white/30 hover:text-white">
+            Upload
+          </Link>
         </div>
         <div className="sm:text-right">
           <p className="mb-4 ajx-label">Social</p>
