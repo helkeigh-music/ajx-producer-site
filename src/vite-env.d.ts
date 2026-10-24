@@ -10,7 +10,6 @@ interface ImportMetaEnv {
   readonly VITE_SOCIAL_SOUNDCLOUD: string
   readonly VITE_SOCIAL_SPOTIFY: string
   readonly VITE_SOCIAL_TIKTOK: string
-  readonly VITE_STRIPE_PUBLISHABLE_KEY: string
 }
 
 interface ImportMeta {

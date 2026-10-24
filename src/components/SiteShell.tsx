@@ -6,13 +6,12 @@ import { usePathname } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd'
 import { SocialLinks } from '@/components/SocialLinks'
 import { BRAND, SITE } from '@/config/site'
+import { ENQUIRE_WHATSAPP_MESSAGE, whatsAppHref } from '@/lib/whatsapp'
 import { breadcrumbJsonLd, homeJsonLd } from '@/lib/schema'
 
 const nav = [
   { href: '/beats', label: 'Beats' },
   { href: '/portfolio', label: 'Portfolio' },
-  { href: '/book', label: 'Book' },
-  { href: '/admin', label: 'Upload' },
 ]
 
 function navClass(active: boolean, mobile: boolean) {
@@ -76,6 +75,14 @@ function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <a
+            href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ajx-btn-primary !min-h-9 !w-auto px-4"
+          >
+            Enquire
+          </a>
         </nav>
 
         <button
@@ -112,22 +119,31 @@ function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="border-t border-white/10 pb-safe-b">
-      <div className="ajx-container flex flex-col gap-10 py-16 sm:flex-row sm:items-start sm:justify-between sm:py-20">
+      <div className="ajx-container flex flex-col gap-8 py-10 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-heading text-xl font-bold text-white">{BRAND.name}</p>
-          <p className="mt-2 ajx-meta">{BRAND.location}</p>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/45">{SITE.description}</p>
-          <div className="mt-6 flex flex-col gap-2 text-sm">
-            <a href={`mailto:${SITE.email}`} className="ajx-link">
+          <p className="font-heading text-lg font-bold text-white">{BRAND.name}</p>
+          <p className="mt-1 ajx-meta">{BRAND.location}</p>
+          <div className="mt-4 flex flex-col gap-1 text-sm">
+            <a
+              href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ajx-link"
+            >
               {SITE.email}
             </a>
             <a href={`tel:${SITE.phoneTel}`} className="ajx-link">
               {SITE.phone}
             </a>
           </div>
-          <Link href="/privacy-policy" className="mt-6 inline-block text-xs text-white/45 hover:text-white">
-            Privacy policy
-          </Link>
+          <div className="mt-6 flex gap-4">
+            <Link href="/privacy-policy" className="text-xs text-white/45 hover:text-white">
+              Privacy policy
+            </Link>
+            <Link href="/admin" className="text-xs text-white/30 hover:text-white">
+              Upload
+            </Link>
+          </div>
         </div>
         <div className="sm:text-right">
           <p className="mb-4 ajx-label">Social</p>
@@ -146,7 +162,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
       <JsonLd data={pathname === '/' ? homeJsonLd() : null} id="jsonld-home" />
       <JsonLd data={breadcrumbJsonLd(pathname)} id="jsonld-breadcrumb" />
       <SiteHeader />
-      <main className="flex-1">{children}</main>
+      <main className="flex flex-1 flex-col">{children}</main>
       <SiteFooter />
     </div>
   )

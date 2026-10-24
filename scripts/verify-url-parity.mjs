@@ -26,18 +26,14 @@ const PAGE_ROUTE_FILES = {
 
 const API_ROUTE_FILES = [
   'src/app/api/beats/route.ts',
-  'src/app/api/checkout/route.ts',
   'src/app/api/booking/route.ts',
-  'src/app/api/webhook/stripe/route.ts',
   'src/app/api/admin/beats/route.ts',
 ]
 
 /** Legacy Vite serverless handlers — kept under legacy-api/ (not deployed as /api) */
 const LEGACY_API_FILES = [
   'legacy-api/beats.ts',
-  'legacy-api/checkout.ts',
   'legacy-api/booking.ts',
-  'legacy-api/webhook/stripe.ts',
   'legacy-api/admin/beats.ts',
 ]
 

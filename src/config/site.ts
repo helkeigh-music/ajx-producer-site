@@ -14,14 +14,27 @@ import { publicEnv } from '@/lib/publicEnv'
 /** GA4 web stream — set NEXT_PUBLIC_GA_MEASUREMENT_ID (or VITE_GA_MEASUREMENT_ID) after creating the property. */
 export const GA_MEASUREMENT_ID = '' as const
 
+const DEFAULT_CONTACT_PHONE = '01925 506135'
+
+/** Display form or E.164 → `tel:` value with no spaces. */
+function toCallTel(phone: string): string {
+  const compact = phone.replace(/[^\d+]/g, '')
+  if (compact.startsWith('+')) return compact
+  if (compact.startsWith('0')) return `+44${compact.slice(1)}`
+  if (compact.startsWith('44')) return `+${compact}`
+  return '+441925506135'
+}
+
+const contactPhone = publicEnv('CONTACT_PHONE', DEFAULT_CONTACT_PHONE) || DEFAULT_CONTACT_PHONE
+
 export const SITE = {
   title: 'Type Beats Manchester | Trap, Drill & R&B | prodbyajx',
   description: 'Trap, drill and R&B type beats. Studio sessions in Manchester.',
-  url: publicEnv('SITE_URL', 'https://ajx-producer-site.vercel.app'),
+  url: publicEnv('SITE_URL', 'https://prodbyajx.com'),
   bookingUrl: '/book',
   email: publicEnv('CONTACT_EMAIL', 'prodbyajx@gmail.com') || 'prodbyajx@gmail.com',
-  phone: publicEnv('CONTACT_PHONE', '+44 7496 181211'),
-  phoneTel: publicEnv('CONTACT_PHONE', '+44 7496 181211').replace(/\s/g, '') || '+447496181211',
+  phone: contactPhone,
+  phoneTel: toCallTel(contactPhone),
   social: {
     instagram: publicEnv('SOCIAL_INSTAGRAM', 'https://www.instagram.com/prodbyajx/'),
     youtube: publicEnv('SOCIAL_YOUTUBE', 'https://youtube.com/@prodbyajx'),
@@ -41,7 +54,7 @@ export type LicenseTierInfo = {
   priceGbp: number
 }
 
-/** Default tier prices used across the store and checkout. */
+/** Default tier prices shown on the beat store. */
 export const DEFAULT_TIER_PRICES: Record<LicenseTier, number> = {
   basic: 29,
   premium: 69,

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { BRAND, SITE } from '@/config/site'
 import { sessionTypeById } from '@/config/booking'
 import { fetchBookedSlots, submitBooking, type BookedSlot } from '@/lib/booking'
+import { bookingWhatsAppMessage, ENQUIRE_WHATSAPP_MESSAGE, whatsAppHref } from '@/lib/whatsapp'
 import {
   BOOKING_SLOTS,
   SESSION_TYPES,
@@ -128,7 +129,12 @@ function BookingSummary({
       </div>
       <p className="mt-6 border-t border-white/10 pt-4 text-xs leading-relaxed text-white/40">
         No payment upfront. {BRAND.name} confirms by email.{' '}
-        <a href={`mailto:${SITE.email}`} className="text-white hover:underline">
+        <a
+          href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white hover:underline"
+        >
           {SITE.email}
         </a>
       </p>
@@ -151,7 +157,7 @@ export function BookingCalendar() {
   const [notes, setNotes] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [confirmed, setConfirmed] = useState<{ id: string; date: string; time: string } | null>(null)
+  const [confirmed, setConfirmed] = useState<{ id: string; date: string; time: string; whatsAppUrl: string } | null>(null)
 
   const month = monthKey(viewYear, viewMonth)
   const monthLabel = new Date(viewYear, viewMonth, 1).toLocaleDateString('en-GB', {
@@ -225,6 +231,20 @@ export function BookingCalendar() {
       return
     }
 
+    const session = sessionTypeById(sessionType)
+    const whatsAppUrl = whatsAppHref(
+      bookingWhatsAppMessage({
+        sessionLabel: session?.label ?? 'Session',
+        duration: session?.duration ?? '2 hrs',
+        when: `${formatSelectedDate(selectedDate)} · ${formatSlotLabel(selectedTime)}`,
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim() || undefined,
+        notes: notes.trim() || undefined,
+      }),
+    )
+    window.open(whatsAppUrl, '_blank', 'noopener,noreferrer')
+
     setSubmitting(true)
     setError(null)
 
@@ -246,7 +266,7 @@ export function BookingCalendar() {
       return
     }
 
-    setConfirmed({ id: result.id, date: selectedDate, time: selectedTime })
+    setConfirmed({ id: result.id, date: selectedDate, time: selectedTime, whatsAppUrl })
   }
 
   function resetWizard() {
@@ -273,8 +293,18 @@ export function BookingCalendar() {
         <p className="mt-4 text-sm leading-relaxed text-white/60">
           {session?.label} · {formatSelectedDate(confirmed.date)} · {formatSlotLabel(confirmed.time)}
         </p>
-        <p className="mt-2 text-xs text-white/40">Email sent to {email || 'your inbox'} · Ref {confirmed.id}</p>
-        <button type="button" onClick={resetWizard} className="ajx-btn-primary mx-auto mt-8 !w-auto">
+        <p className="mt-2 text-xs text-white/40">
+          WhatsApp should be open with the message ready to send. Ref {confirmed.id}
+        </p>
+        <a
+          href={confirmed.whatsAppUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ajx-btn-primary mx-auto mt-8 !w-auto"
+        >
+          Open WhatsApp
+        </a>
+        <button type="button" onClick={resetWizard} className="mx-auto mt-4 text-sm text-white/50 hover:text-white">
           Book another slot
         </button>
       </div>
@@ -296,7 +326,7 @@ export function BookingCalendar() {
           disabled={submitting}
           className="ajx-btn-primary min-h-11 flex-1 disabled:opacity-50 sm:min-w-[160px] sm:flex-none"
         >
-          {submitting ? 'Confirming…' : 'Confirm booking'}
+          {submitting ? 'Sending…' : 'Send on WhatsApp'}
         </button>
       ) : (
         <button
@@ -593,7 +623,7 @@ export function BookingCalendar() {
               <form id="booking-details-form" onSubmit={(event) => void handleSubmit(event)}>
                 <h2 className="font-semibold text-lg font-bold text-white sm:text-2xl">Your details</h2>
                 <p className="mt-1 text-xs text-white/50 sm:mt-2 sm:text-sm">
-                  Name and email for the confirmation.
+                  These go in the WhatsApp message to Alex.
                 </p>
 
                 <div className="mt-4 space-y-3 sm:mt-6 sm:space-y-4">

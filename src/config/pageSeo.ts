@@ -2,7 +2,6 @@ export type PageSeo = {
   title: string
   description: string
   h1: string
-  eyebrow?: string
   pageLead?: string
   robots?: string
 }
@@ -19,9 +18,9 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   '/beats': {
     title: 'Beat Store | Trap, Drill & R&B Type Beats | prodbyajx',
     description:
-      'Lease trap, drill and R&B type beats from Manchester. Preview free, checkout online, download link by email. Basic, premium and exclusive licenses.',
+      'Lease trap, drill and R&B type beats from Manchester. Preview free, then message on WhatsApp to buy. Basic, premium and exclusive licenses.',
     h1: 'Beat store',
-    pageLead: 'Preview any beat, pick a license, pay online. Your files arrive by email.',
+    pageLead: 'Preview any beat and pick a license. Message on WhatsApp to buy.',
   },
   '/portfolio': {
     title: 'Production & Type Beats | prodbyajx Manchester',
@@ -40,9 +39,9 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   '/privacy-policy': {
     title: 'Privacy Policy | prodbyajx',
     description:
-      'How prodbyajx collects, uses and protects your details when you book a studio session, buy a beat license or browse the site.',
+      'How prodbyajx collects, uses and protects your details when you book a studio session, message about a beat, or browse the site.',
     h1: 'Privacy policy',
-    pageLead: 'What we collect when you book or buy, why we need it, and your rights under UK GDPR.',
+    pageLead: 'What we collect when you book or message us, why we need it, and your rights under UK GDPR.',
   },
   '/admin': {
     title: 'Upload beats | prodbyajx',

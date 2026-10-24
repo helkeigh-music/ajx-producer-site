@@ -205,17 +205,3 @@ export async function fetchBeats(): Promise<Beat[]> {
     return SEED_BEATS
   }
 }
-
-export async function createCheckout(
-  beatId: string,
-  licenseTier: string,
-): Promise<{ url: string } | { error: string }> {
-  const res = await fetch('/api/checkout', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ beatId, licenseTier }),
-  })
-  const data = (await res.json()) as { url?: string; error?: string }
-  if (!res.ok || !data.url) return { error: data.error ?? 'Checkout failed' }
-  return { url: data.url }
-}

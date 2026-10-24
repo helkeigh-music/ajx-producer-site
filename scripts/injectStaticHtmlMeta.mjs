@@ -7,7 +7,7 @@ const __dir = dirname(fileURLToPath(import.meta.url))
 const root = join(__dir, '..')
 const dist = join(root, 'dist')
 
-const SITE_URL = (process.env.VITE_SITE_URL ?? 'https://ajx-producer-site.vercel.app').replace(/\/$/, '')
+const SITE_URL = (process.env.VITE_SITE_URL ?? 'https://prodbyajx.com').replace(/\/$/, '')
 
 /** Mirrors src/config/pageSeo.ts — keep in sync for build scripts. */
 const PAGE_SEO = {
@@ -19,7 +19,7 @@ const PAGE_SEO = {
   '/beats': {
     title: 'Beat Store | Trap, Drill & R&B Type Beats | prodbyajx',
     description:
-      'Lease trap, drill and R&B type beats from Manchester. Preview free, checkout online, download link by email. Basic, premium and exclusive licenses.',
+      'Lease trap, drill and R&B type beats from Manchester. Preview free, then message on WhatsApp to buy. Basic, premium and exclusive licenses.',
   },
   '/portfolio': {
     title: 'Production & Type Beats | prodbyajx Manchester',

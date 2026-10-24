@@ -4,4 +4,4 @@ Allow: /
 Disallow: /api/
 Disallow: /admin
 
-Sitemap: https://ajx-producer-site.vercel.app/sitemap.xml
+Sitemap: https://prodbyajx.com/sitemap.xml

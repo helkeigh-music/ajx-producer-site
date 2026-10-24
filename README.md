@@ -1,15 +1,14 @@
 # AJX Producer Site
 
-Minimal producer website for **AJX** — navy and sky blue brand, beat store with MP3 previews, Stripe checkout with license tiers, portfolio, booking calendar, admin uploads, and post-payment email delivery.
+Minimal producer website for **AJX** — navy and sky blue brand, beat store with MP3 previews, portfolio, booking calendar, password-gated beat uploads, and booking emails. Visitors message on WhatsApp to buy a beat.
 
 ## Stack
 
 - Vite + React + TypeScript + Tailwind
 - Vercel serverless API routes
 - Vercel Blob (beat MP3s, lease files, catalog JSON)
-- Stripe Checkout + webhook (basic / premium / exclusive tiers)
-- Resend (beat file delivery email)
-- Cal.com embed for booking (`VITE_BOOKING_URL`)
+- Resend (booking confirmation emails)
+- WhatsApp for beat purchases and enquiries
 
 ## Local development
 
@@ -20,17 +19,7 @@ npm install
 npm run dev
 ```
 
-For API routes (upload, checkout, webhook, beat list):
-
-```bash
-npm run dev:vercel
-```
-
-Forward Stripe webhooks locally:
-
-```bash
-stripe listen --forward-to localhost:3000/api/webhook/stripe
-```
+`npm run dev` serves the site and the upload, booking, and beat list API routes.
 
 ## Environment
 
@@ -40,9 +29,7 @@ stripe listen --forward-to localhost:3000/api/webhook/stripe
 | `VITE_BOOKING_URL` | Cal.com booking page |
 | `VITE_CONTACT_EMAIL` | Contact email shown in copy |
 | `VITE_SOCIAL_*` | Instagram, YouTube, Spotify, TikTok URLs |
-| `STRIPE_SECRET_KEY` | Stripe Checkout + webhook |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signature verification |
-| `RESEND_API_KEY` | Email beat files after payment |
+| `RESEND_API_KEY` | Booking confirmation emails |
 | `EMAIL_FROM` | Sender address (verified in Resend) |
 | `ADMIN_PASSWORD` | Admin upload gate |
 | `BLOB_READ_WRITE_TOKEN` | MP3 previews + lease files + catalog |
@@ -52,10 +39,10 @@ stripe listen --forward-to localhost:3000/api/webhook/stripe
 | Route | Purpose |
 |-------|---------|
 | `/` | Hero, licensing overview, social links |
-| `/beats` | Beat list, tier picker, player, Stripe checkout |
+| `/beats` | Beat list, tier picker, player. Buy opens WhatsApp |
 | `/portfolio` | Credits with artwork and optional audio clips |
 | `/book` | Cal.com calendar embed |
-| `/admin` | Upload beats (preview + lease file + tier prices) |
+| `/admin` | Password-gated upload (preview, optional lease file, tier prices). Quiet footer link; not in the public header |
 
 ## Deploy (Vercel)
 
@@ -63,8 +50,6 @@ stripe listen --forward-to localhost:3000/api/webhook/stripe
 2. Import project in Vercel
 3. Add env vars from `.env.example`
 4. Enable **Vercel Blob** storage (Storage tab → create store → `BLOB_READ_WRITE_TOKEN` is auto-injected)
-5. In Stripe Dashboard → Webhooks → add endpoint: `https://your-domain/api/webhook/stripe` with event `checkout.session.completed`
-6. Copy webhook signing secret to `STRIPE_WEBHOOK_SECRET`
 
 ## License tiers
 
@@ -72,7 +57,7 @@ stripe listen --forward-to localhost:3000/api/webhook/stripe
 |------|------------------|
 | **Basic** | Tagged MP3, non-exclusive |
 | **Premium** | WAV + stems, higher stream cap |
-| **Exclusive** | Full buyout — beat removed from store after purchase |
+| **Exclusive** | Full buyout |
 
 ## Brand
 

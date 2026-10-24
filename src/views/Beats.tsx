@@ -8,6 +8,7 @@ import { BeatCard } from '@/components/BeatCard'
 import { BeatPlayer } from '@/components/BeatPlayer'
 import { PageHeader } from '@/components/PageHeader'
 import { fetchBeats } from '@/lib/beats'
+import { ENQUIRE_WHATSAPP_MESSAGE, whatsAppHref } from '@/lib/whatsapp'
 
 const BEATS = PAGE_SEO['/beats']
 
@@ -16,8 +17,6 @@ export function BeatsPage() {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [playSession, setPlaySession] = useState(0)
   const [loading, setLoading] = useState(true)
-  const [paid, setPaid] = useState(false)
-  const [canceled, setCanceled] = useState(false)
 
   useEffect(() => {
     void fetchBeats().then((list) => {
@@ -25,23 +24,6 @@ export function BeatsPage() {
       setActiveId(list[0]?.id ?? null)
       setLoading(false)
     })
-  }, [])
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const isPaid = params.get('paid') === '1'
-    const isCanceled = params.get('canceled') === '1'
-    setPaid(isPaid)
-    setCanceled(isCanceled)
-    if (!isPaid && !isCanceled) return
-    const timer = window.setTimeout(() => {
-      const url = new URL(window.location.href)
-      url.search = ''
-      window.history.replaceState({}, '', url.pathname)
-      setPaid(false)
-      setCanceled(false)
-    }, 8000)
-    return () => window.clearTimeout(timer)
   }, [])
 
   const activeBeat = useMemo(
@@ -60,24 +42,13 @@ export function BeatsPage() {
   }
 
   return (
-    <div className="ajx-container py-16 sm:py-24">
+    <div className="ajx-container py-12 sm:py-16">
       <PageHeader title={BEATS.h1} description={BEATS.pageLead ?? BEATS.description} />
 
-      {paid ? (
-        <div className="ajx-card mt-8 px-5 py-4 text-sm text-white/75">
-          Payment received. Your download link is on the way. Check your inbox.
-        </div>
-      ) : null}
-      {canceled ? (
-        <div className="ajx-card mt-8 px-5 py-4 text-sm text-white/45">
-          Checkout cancelled. Your cart is still here when you are ready.
-        </div>
-      ) : null}
-
       {loading ? (
-        <p className="mt-16 text-sm text-white/40">Loading…</p>
+        <p className="text-sm text-white/40">Loading…</p>
       ) : (
-        <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div id="beat-player" className="order-1 lg:sticky lg:top-24 lg:order-2 lg:self-start">
             {activeBeat ? (
               <BeatPlayer
@@ -89,11 +60,21 @@ export function BeatsPage() {
             ) : null}
             <p className="mt-6 text-sm leading-relaxed text-white/40">
               Need a custom beat?{' '}
-              <a href="/book" className="ajx-link no-underline hover:underline">
-                Book a session
+              <a
+                href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ajx-link no-underline hover:underline"
+              >
+                Enquire
               </a>{' '}
-              or email{' '}
-              <a href={`mailto:${SITE.email}`} className="ajx-link no-underline hover:underline">
+              or message{' '}
+              <a
+                href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ajx-link no-underline hover:underline"
+              >
                 {SITE.email}
               </a>
             </p>

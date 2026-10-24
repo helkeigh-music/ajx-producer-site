@@ -1,105 +1,75 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import { DiscCover } from '@/components/DiscCover'
-import { EmbedPlayer } from '@/components/EmbedPlayer'
-import { SocialLinks } from '@/components/SocialLinks'
-import type { Beat } from '@/config/site'
-import { BRAND } from '@/config/site'
+import { SITE } from '@/config/site'
 import { PAGE_SEO } from '@/config/pageSeo'
-import { fetchBeats, SAX_SAMPLE_FLIP_SHORT } from '@/lib/beats'
-import { beatUsesEmbed } from '@/lib/embed'
+import { STUDIO_PHOTOS } from '@/config/studioPhotos'
+import { StudioPhoto } from '@/components/StudioPhoto'
+import { BEATS_WHATSAPP_MESSAGE, ENQUIRE_WHATSAPP_MESSAGE, whatsAppHref } from '@/lib/whatsapp'
 
 const HOME = PAGE_SEO['/']
 
+const HERO_PHOTOS = [
+  { photo: STUDIO_PHOTOS.keys, height: 'h-[42%]' },
+  { photo: STUDIO_PHOTOS.patchbay, height: 'h-[74%]' },
+  { photo: STUDIO_PHOTOS.drums, height: 'h-full' },
+  { photo: STUDIO_PHOTOS.liveRoom, height: 'h-[68%]' },
+  { photo: STUDIO_PHOTOS.controlRoom, height: 'h-[38%]' },
+] as const
+
 export function HomeHero() {
-  const [featured, setFeatured] = useState<Beat[]>([])
-  const [heroBeat, setHeroBeat] = useState<Beat | null>(null)
-
-  useEffect(() => {
-    void fetchBeats().then((beats) => {
-      const picks = beats.filter((beat) => beat.featured || beatUsesEmbed(beat)).slice(0, 6)
-      setFeatured(picks.slice(0, 5))
-      setHeroBeat(picks.find((beat) => beat.embedUrl && beatUsesEmbed(beat)) ?? beats[0] ?? null)
-    })
-  }, [])
-
   return (
-    <section className="ajx-divider border-b">
-      <div className="ajx-container py-16 sm:py-24 lg:py-32">
-        <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
-          <div>
-            <p className="hero-kicker">{BRAND.location}</p>
-            <h1 className="page-h1 mt-5">{HOME.h1}</h1>
-            <p className="hero-sub mt-6">{HOME.pageLead ?? HOME.description}</p>
-            <p className="mt-6 ajx-meta">Trap · Drill · R&B · from £29</p>
+    <section className="relative flex flex-1 items-center overflow-hidden">
+      <div className="ajx-container grid w-full items-center gap-6 py-8 sm:gap-10 sm:py-16 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-10 lg:py-20">
+        <div>
+          <h1 className="page-h1">{HOME.h1}</h1>
+          <p className="hero-sub mt-4 lg:mt-5">Custom beats, recording and mix. Store beats from £29.</p>
 
-            <div className="mt-10 flex flex-col gap-3 min-[420px]:flex-row">
-              <a href="/book" className="ajx-btn-primary">
-                Book a session
-              </a>
-              <a href="/beats" className="ajx-btn-ghost">
-                Browse beats
-              </a>
-            </div>
-
-            <SocialLinks className="mt-10" />
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-8">
+            <a
+              href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ajx-btn-primary"
+            >
+              Enquire
+            </a>
+            <a
+              href={whatsAppHref(BEATS_WHATSAPP_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ajx-btn-ghost"
+            >
+              Browse beats
+            </a>
           </div>
 
-          <div className="space-y-6">
-            <div className="ajx-panel overflow-hidden">
-              <div className="border-b border-white/10 px-5 py-4">
-                <p className="text-sm font-semibold text-white">Sax sample flip</p>
-                <p className="mt-1 ajx-meta">Live sax over a reel sample</p>
-              </div>
-              <div className="p-4">
-                <EmbedPlayer url={SAX_SAMPLE_FLIP_SHORT} title="Sax sample flip" autoPlay={false} />
-              </div>
-            </div>
-
-            {heroBeat?.embedUrl ? (
-              <div className="ajx-panel overflow-hidden">
-                <div className="flex items-center gap-4 border-b border-white/10 px-5 py-4">
-                  <DiscCover src={heroBeat.coverUrl} alt="" className="size-11" />
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-white">{heroBeat.title}</p>
-                    <p className="ajx-meta">
-                      {heroBeat.bpm}bpm · {heroBeat.key}
-                    </p>
-                  </div>
-                  <a href="/beats" className="shrink-0 text-xs font-medium text-sky-brand hover:text-sky-light">
-                    Beat store
-                  </a>
-                </div>
-                <div className="p-4">
-                  <EmbedPlayer url={heroBeat.embedUrl} title={heroBeat.title} compact />
-                </div>
-              </div>
-            ) : null}
-          </div>
+          <p className="mt-5 text-sm text-white/70 lg:mt-8">
+            <a
+              href={whatsAppHref(ENQUIRE_WHATSAPP_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white"
+            >
+              {SITE.email}
+            </a>
+            <span className="mx-2 text-white/30">·</span>
+            <a href={`tel:${SITE.phoneTel}`} className="hover:text-white">
+              {SITE.phone}
+            </a>
+          </p>
         </div>
 
-        {featured.length ? (
-          <div className="ajx-divider mt-20 pt-16 sm:mt-24 sm:pt-20">
-            <div className="mb-8 flex items-end justify-between gap-4">
-              <h2 className="section-title">On the store now</h2>
-              <a href="/beats" className="shrink-0 text-sm font-medium text-sky-brand hover:text-sky-light">
-                View all
-              </a>
-            </div>
-            <div className="-mx-5 flex gap-4 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:-mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
-              {featured.map((beat) => (
-                <a key={beat.id} href="/beats" className="ajx-beat-tile w-[9.5rem] shrink-0 sm:w-[10.5rem]">
-                  <DiscCover src={beat.coverUrl} alt="" className="w-full" />
-                  <p className="mt-4 truncate text-sm font-medium text-white">{beat.title}</p>
-                  <p className="mt-1 ajx-meta">
-                    {beat.bpm}bpm · {beat.tags[0] ?? beat.key}
-                  </p>
-                </a>
-              ))}
-            </div>
-          </div>
-        ) : null}
+        <ul
+          className="-mx-5 flex h-56 w-[calc(100%+2.5rem)] items-center gap-2 px-4 sm:-mx-8 sm:h-64 sm:w-[calc(100%+4rem)] lg:mx-0 lg:h-[min(58vh,26rem)] lg:w-auto lg:px-0"
+          aria-label="The studio"
+        >
+          {HERO_PHOTOS.map(({ photo, height }) => (
+            <li
+              key={photo.src}
+              className={`min-w-0 flex-1 overflow-hidden rounded-full border border-white/10 ${height}`}
+            >
+              <StudioPhoto photo={photo} priority />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )
